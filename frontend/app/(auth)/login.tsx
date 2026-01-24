@@ -77,7 +77,19 @@ export default function LoginScreen() {
 
           <View style={styles.form}>
             <Input
-              label="رقم الهاتف"
+              label="الاسم الكامل *"
+              value={name}
+              onChangeText={(text) => {
+                setName(text);
+                setErrors({ ...errors, name: undefined });
+              }}
+              placeholder="أدخل اسمك الكامل"
+              icon="person-outline"
+              error={errors.name}
+            />
+
+            <Input
+              label="رقم الهاتف *"
               value={phone}
               onChangeText={(text) => {
                 setPhone(text);
@@ -88,31 +100,6 @@ export default function LoginScreen() {
               icon="call-outline"
               error={errors.phone}
             />
-
-            <TouchableOpacity
-              style={styles.nameToggle}
-              onPress={() => setShowNameField(!showNameField)}
-            >
-              <Text style={styles.nameToggleText}>
-                {showNameField ? 'إخفاء حقل الاسم' : 'إضافة اسمك (اختياري)'}
-              </Text>
-              <Ionicons
-                name={showNameField ? 'chevron-up' : 'chevron-down'}
-                size={16}
-                color={COLORS.primary}
-              />
-            </TouchableOpacity>
-
-            {showNameField && (
-              <Input
-                label="الاسم"
-                value={name}
-                onChangeText={setName}
-                placeholder="أدخل اسمك"
-                icon="person-outline"
-                error={errors.name}
-              />
-            )}
 
             <Button
               title="دخول"
