@@ -100,7 +100,7 @@ export default function CartScreen() {
 
       <View style={styles.itemInfo}>
         <Text style={styles.itemName} numberOfLines={2}>{item.product_name}</Text>
-        <Text style={styles.itemPrice}>{item.price.toFixed(2)} €</Text>
+        <Text style={styles.itemPrice}>{item.price.toFixed(2)} درهم</Text>
       </View>
 
       <View style={styles.quantityContainer}>
@@ -201,7 +201,7 @@ export default function CartScreen() {
                   </View>
                 </View>
                 {usePoints && (
-                  <Text style={styles.pointsDiscount}>-{pointsDiscount.toFixed(2)} €</Text>
+                  <Text style={styles.pointsDiscount}>-{pointsDiscount.toFixed(2)} درهم</Text>
                 )}
               </TouchableOpacity>
             )}
@@ -210,21 +210,21 @@ export default function CartScreen() {
             <View style={styles.summary}>
               <View style={styles.summaryRow}>
                 <Text style={styles.summaryLabel}>المجموع الفرعي</Text>
-                <Text style={styles.summaryValue}>{total.toFixed(2)} €</Text>
+                <Text style={styles.summaryValue}>{total.toFixed(2)} درهم</Text>
               </View>
               <View style={styles.summaryRow}>
                 <Text style={styles.summaryLabel}>رسوم التوصيل</Text>
-                <Text style={styles.summaryValue}>{deliveryFee.toFixed(2)} €</Text>
+                <Text style={styles.summaryValue}>{deliveryFee.toFixed(2)} درهم</Text>
               </View>
               {usePoints && pointsDiscount > 0 && (
                 <View style={styles.summaryRow}>
                   <Text style={styles.summaryLabel}>خصم النقاط</Text>
-                  <Text style={[styles.summaryValue, { color: COLORS.success }]}>-{pointsDiscount.toFixed(2)} €</Text>
+                  <Text style={[styles.summaryValue, { color: COLORS.success }]}>-{pointsDiscount.toFixed(2)} درهم</Text>
                 </View>
               )}
               <View style={[styles.summaryRow, styles.totalRow]}>
                 <Text style={styles.totalLabel}>الإجمالي</Text>
-                <Text style={styles.totalValue}>{finalTotal.toFixed(2)} €</Text>
+                <Text style={styles.totalValue}>{finalTotal.toFixed(2)} درهم</Text>
               </View>
             </View>
 

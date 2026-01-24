@@ -201,20 +201,20 @@ export default function AdminOrdersScreen() {
                       <Text style={styles.itemName}>
                         {item.quantity}x {item.product_name}
                       </Text>
-                      <Text style={styles.itemTotal}>{item.total.toFixed(2)} €</Text>
+                      <Text style={styles.itemTotal}>{item.total.toFixed(2)} درهم</Text>
                     </View>
                   ))}
                   <View style={styles.totalRow}>
                     <Text style={styles.totalLabel}>المجموع</Text>
-                    <Text style={styles.totalValue}>{selectedOrder.subtotal.toFixed(2)} €</Text>
+                    <Text style={styles.totalValue}>{selectedOrder.subtotal.toFixed(2)} درهم</Text>
                   </View>
                   <View style={styles.totalRow}>
                     <Text style={styles.totalLabel}>التوصيل</Text>
-                    <Text style={styles.totalValue}>{selectedOrder.delivery_fee.toFixed(2)} €</Text>
+                    <Text style={styles.totalValue}>{selectedOrder.delivery_fee.toFixed(2)} درهم</Text>
                   </View>
                   <View style={[styles.totalRow, styles.grandTotal]}>
                     <Text style={styles.grandTotalLabel}>الإجمالي</Text>
-                    <Text style={styles.grandTotalValue}>{selectedOrder.total.toFixed(2)} €</Text>
+                    <Text style={styles.grandTotalValue}>{selectedOrder.total.toFixed(2)} درهم</Text>
                   </View>
                 </View>
               </View>

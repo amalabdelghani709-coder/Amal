@@ -76,9 +76,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
         
         <View style={styles.priceRow}>
           <View style={styles.prices}>
-            <Text style={styles.price}>{product.price.toFixed(2)} €</Text>
+            <Text style={styles.price}>{product.price.toFixed(2)} درهم</Text>
             {hasDiscount && (
-              <Text style={styles.originalPrice}>{product.original_price?.toFixed(2)} €</Text>
+              <Text style={styles.originalPrice}>{product.original_price?.toFixed(2)} درهم</Text>
             )}
           </View>
           

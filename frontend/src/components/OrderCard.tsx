@@ -55,7 +55,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, onPress, showCustom
 
       <View style={styles.footer}>
         <Text style={styles.date}>{formattedDate}</Text>
-        <Text style={styles.total}>{order.total.toFixed(2)} €</Text>
+        <Text style={styles.total}>{order.total.toFixed(2)} درهم</Text>
       </View>
     </TouchableOpacity>
   );

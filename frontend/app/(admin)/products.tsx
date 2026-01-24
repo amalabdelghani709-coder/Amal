@@ -237,7 +237,7 @@ export default function AdminProductsScreen() {
         <Text style={styles.productName} numberOfLines={1}>{item.name}</Text>
         <Text style={styles.productCategory}>{item.category}</Text>
         <View style={styles.productPriceRow}>
-          <Text style={styles.productPrice}>{item.price.toFixed(2)} €</Text>
+          <Text style={styles.productPrice}>{item.price.toFixed(2)} درهم</Text>
           <Text style={styles.productStock}>المخزون: {item.stock}</Text>
         </View>
       </View>

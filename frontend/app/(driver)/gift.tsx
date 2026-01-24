@@ -171,7 +171,7 @@ export default function DriverGiftScreen() {
                   />
 
                   <Text style={styles.euroValue}>
-                    القيمة باليورو: {((parseInt(giftAmount) || 0) / 100).toFixed(2)} €
+                    القيمة باليورو: {((parseInt(giftAmount) || 0) / 100).toFixed(2)} درهم
                   </Text>
 
                   <Button
@@ -207,7 +207,7 @@ export default function DriverGiftScreen() {
                   <View style={styles.amountBox}>
                     <Text style={styles.amountLabel}>القيمة:</Text>
                     <Text style={styles.amountValue}>
-                      {generatedCode.amount} نقطة = {(generatedCode.amount / 100).toFixed(2)} €
+                      {generatedCode.amount} نقطة = {(generatedCode.amount / 100).toFixed(2)} درهم
                     </Text>
                   </View>
 

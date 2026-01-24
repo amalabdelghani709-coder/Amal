@@ -136,7 +136,7 @@ export default function ProfileScreen() {
               لديك {user?.points || 0} نقطة يمكنك استخدامها لخصم رسوم التوصيل
             </Text>
             <Text style={styles.giftValue}>
-              قيمة النقاط: {((user?.points || 0) / 100).toFixed(2)} €
+              قيمة النقاط: {((user?.points || 0) / 100).toFixed(2)} درهم
             </Text>
           </View>
         )}

@@ -117,13 +117,13 @@ export default function AdminDashboard() {
           <StatCard
             icon="cash-outline"
             label="إيراد اليوم"
-            value={`${(stats?.today_revenue || 0).toFixed(0)} €`}
+            value={`${(stats?.today_revenue || 0).toFixed(0)} درهم`}
             color={COLORS.success}
           />
           <StatCard
             icon="trending-up-outline"
             label="إيراد الشهر"
-            value={`${(stats?.monthly_revenue || 0).toFixed(0)} €`}
+            value={`${(stats?.monthly_revenue || 0).toFixed(0)} درهم`}
             color={COLORS.info}
           />
         </View>
@@ -159,7 +159,7 @@ export default function AdminDashboard() {
                 <View style={styles.topProductInfo}>
                   <Text style={styles.topProductName}>{item.product.name}</Text>
                   <Text style={styles.topProductSales}>
-                    {item.total_sold} مبيعات • {item.total_revenue.toFixed(2)} €
+                    {item.total_sold} مبيعات • {item.total_revenue.toFixed(2)} درهم
                   </Text>
                 </View>
               </View>

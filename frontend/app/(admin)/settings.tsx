@@ -151,7 +151,7 @@ export default function AdminSettingsScreen() {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>إعدادات التوصيل</Text>
             <Input
-              label="رسوم التوصيل (€)"
+              label="رسوم التوصيل (درهم)"
               value={deliveryFee}
               onChangeText={setDeliveryFee}
               placeholder="10"
@@ -159,7 +159,7 @@ export default function AdminSettingsScreen() {
               icon="car-outline"
             />
             <Input
-              label="الحد الأدنى للطلب (€)"
+              label="الحد الأدنى للطلب (درهم)"
               value={minOrder}
               onChangeText={setMinOrder}
               placeholder="0"
