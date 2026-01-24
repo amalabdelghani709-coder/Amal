@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginBottom: SIZES.md,
+    display: 'none', // Hidden - name is now required
   },
   nameToggleText: {
     fontSize: SIZES.fontSm,
