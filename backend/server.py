@@ -197,18 +197,32 @@ async def get_settings():
 # ==================== AUTH ROUTES ====================
 
 @api_router.post("/auth/login")
-async def login(phone: str = Query(...), name: str = Query("")):
+async def login(
+    phone: str = Query(...), 
+    name: str = Query(""),
+    latitude: Optional[float] = Query(None),
+    longitude: Optional[float] = Query(None)
+):
     """Login or register with phone number"""
     user = await db.users.find_one({"phone": phone})
     
     if not user:
-        # Create new user
-        new_user = UserBase(phone=phone, name=name).dict()
+        # Create new user - requires admin approval
+        new_user = UserBase(
+            phone=phone, 
+            name=name,
+            latitude=latitude,
+            longitude=longitude,
+            is_active=False,  # Not active until approved
+            is_approved=False  # Needs admin approval
+        ).dict()
         new_user["created_at"] = datetime.utcnow()
         result = await db.users.insert_one(new_user)
         user = await db.users.find_one({"_id": result.inserted_id})
+        return {**serialize_doc(user), "is_new_registration": True, "needs_approval": True}
     
-    return serialize_doc(user)
+    # Existing user - check if approved
+    return {**serialize_doc(user), "is_new_registration": False, "needs_approval": not user.get("is_approved", False)}
 
 @api_router.get("/auth/user/{user_id}")
 async def get_user(user_id: str):
