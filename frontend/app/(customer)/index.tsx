@@ -123,7 +123,7 @@ export default function CustomerHomeScreen() {
             <Text style={styles.bannerTitle}>{settings?.store_name || 'دار البقال'}</Text>
             <Text style={styles.bannerSubtitle}>تسوق سهل بأسعار تنافسية</Text>
             <View style={styles.bannerBadge}>
-              <Text style={styles.bannerBadgeText}>توصيل: {settings?.delivery_fee || 10} €</Text>
+              <Text style={styles.bannerBadgeText}>توصيل: {settings?.delivery_fee || 10} درهم</Text>
             </View>
           </View>
           <View style={styles.bannerIcon}>
