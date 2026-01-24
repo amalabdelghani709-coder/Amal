@@ -306,6 +306,42 @@ async def update_user_location(user_id: str, latitude: float = Query(...), longi
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+@api_router.put("/admin/users/{user_id}/approve")
+async def approve_user(user_id: str):
+    """Approve a new customer account (admin only)"""
+    try:
+        result = await db.users.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"is_approved": True, "is_active": True}}
+        )
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="المستخدم غير موجود")
+        
+        user = await db.users.find_one({"_id": ObjectId(user_id)})
+        return serialize_doc(user)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@api_router.put("/admin/users/{user_id}/reject")
+async def reject_user(user_id: str):
+    """Reject a customer account (admin only)"""
+    try:
+        result = await db.users.delete_one({"_id": ObjectId(user_id)})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="المستخدم غير موجود")
+        return {"message": "تم رفض وحذف الحساب"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@api_router.get("/admin/users/pending")
+async def get_pending_users():
+    """Get users pending approval"""
+    users = await db.users.find({
+        "role": "customer",
+        "is_approved": False
+    }).sort("created_at", -1).to_list(1000)
+    return [serialize_doc(user) for user in users]
+
 # ==================== PRODUCT ROUTES ====================
 
 @api_router.get("/products")
