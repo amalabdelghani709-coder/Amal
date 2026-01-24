@@ -39,7 +39,8 @@ class UserBase(BaseModel):
     longitude: Optional[float] = None
     points: int = 0
     total_orders: int = 0
-    is_active: bool = True
+    is_active: bool = False  # Requires admin approval for customers
+    is_approved: bool = False  # Admin must approve new customers
 
 class UserCreate(BaseModel):
     phone: str
