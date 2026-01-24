@@ -23,7 +23,6 @@ export default function LoginScreen() {
   
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
-  const [showNameField, setShowNameField] = useState(false);
   const [errors, setErrors] = useState<{ phone?: string; name?: string }>({});
 
   const validatePhone = (value: string) => {
@@ -33,6 +32,10 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     const newErrors: { phone?: string; name?: string } = {};
+    
+    if (!name || name.trim().length < 2) {
+      newErrors.name = 'الرجاء إدخال اسمك (على الأقل حرفين)';
+    }
     
     if (!phone) {
       newErrors.phone = 'الرجاء إدخال رقم الهاتف';
@@ -46,7 +49,7 @@ export default function LoginScreen() {
     }
     
     try {
-      await login(phone, name);
+      await login(phone, name.trim());
       // Navigation will be handled by index.tsx based on role
       router.replace('/');
     } catch (error) {
