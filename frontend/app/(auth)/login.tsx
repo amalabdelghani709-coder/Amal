@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,12 @@ import {
   ScrollView,
   Alert,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import * as Location from 'expo-location';
 import { useAuthStore } from '../../src/store/authStore';
 import { Input } from '../../src/components/Input';
 import { Button } from '../../src/components/Button';
@@ -24,10 +26,42 @@ export default function LoginScreen() {
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const [errors, setErrors] = useState<{ phone?: string; name?: string }>({});
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
+  const [showPendingScreen, setShowPendingScreen] = useState(false);
 
   const validatePhone = (value: string) => {
     // Simple phone validation
     return value.length >= 9;
+  };
+
+  const getLocation = async (): Promise<{ latitude: number; longitude: number } | null> => {
+    try {
+      setIsGettingLocation(true);
+      
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          'إذن الموقع',
+          'نحتاج إذن الموقع لتحديد موقع التوصيل. يمكنك المتابعة بدون تحديد الموقع.',
+          [{ text: 'حسناً' }]
+        );
+        return null;
+      }
+
+      const location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+
+      return {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+    } catch (error) {
+      console.error('Error getting location:', error);
+      return null;
+    } finally {
+      setIsGettingLocation(false);
+    }
   };
 
   const handleLogin = async () => {
@@ -49,13 +83,50 @@ export default function LoginScreen() {
     }
     
     try {
-      await login(phone, name.trim());
-      // Navigation will be handled by index.tsx based on role
-      router.replace('/');
+      // Get location first
+      const location = await getLocation();
+      
+      // Login with location
+      const result = await login(phone, name.trim(), location?.latitude, location?.longitude);
+      
+      // Check if needs approval
+      if (result?.needs_approval && result?.is_new_registration) {
+        setShowPendingScreen(true);
+      } else if (result?.needs_approval) {
+        setShowPendingScreen(true);
+      } else {
+        // Navigation will be handled by index.tsx based on role
+        router.replace('/');
+      }
     } catch (error) {
       Alert.alert('خطأ', 'فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى.');
     }
   };
+
+  // Show pending approval screen
+  if (showPendingScreen) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.pendingContainer}>
+          <View style={styles.pendingIcon}>
+            <Ionicons name="time-outline" size={80} color={COLORS.warning} />
+          </View>
+          <Text style={styles.pendingTitle}>في انتظار الموافقة</Text>
+          <Text style={styles.pendingSubtitle}>
+            تم إرسال طلب تسجيلك بنجاح!{'\n'}
+            سيتم تفعيل حسابك بعد موافقة المتحكم.{'\n'}
+            يمكنك المحاولة مرة أخرى لاحقاً.
+          </Text>
+          <Button
+            title="حاول مرة أخرى"
+            onPress={() => setShowPendingScreen(false)}
+            variant="outline"
+            style={styles.retryButton}
+          />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -101,13 +172,24 @@ export default function LoginScreen() {
               error={errors.phone}
             />
 
+            {isGettingLocation && (
+              <View style={styles.locationLoading}>
+                <ActivityIndicator color={COLORS.primary} />
+                <Text style={styles.locationText}>جاري تحديد موقعك...</Text>
+              </View>
+            )}
+
             <Button
               title="دخول"
               onPress={handleLogin}
-              loading={isLoading}
+              loading={isLoading || isGettingLocation}
               size="large"
               style={styles.loginButton}
             />
+
+            <Text style={styles.noteText}>
+              * سيتم طلب إذن الموقع لتحديد عنوان التوصيل
+            </Text>
           </View>
 
           <View style={styles.features}>
@@ -179,20 +261,28 @@ const styles = StyleSheet.create({
     padding: SIZES.lg,
     marginBottom: SIZES.lg,
   },
-  nameToggle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    marginBottom: SIZES.md,
-    display: 'none', // Hidden - name is now required
-  },
-  nameToggleText: {
-    fontSize: SIZES.fontSm,
-    color: COLORS.primary,
-    marginRight: SIZES.xs,
-  },
   loginButton: {
     marginTop: SIZES.md,
+  },
+  noteText: {
+    fontSize: SIZES.fontSm,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    marginTop: SIZES.md,
+  },
+  locationLoading: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: SIZES.sm,
+    backgroundColor: COLORS.primary + '10',
+    borderRadius: SIZES.radiusMd,
+    marginTop: SIZES.sm,
+  },
+  locationText: {
+    fontSize: SIZES.fontSm,
+    color: COLORS.primary,
+    marginLeft: SIZES.sm,
   },
   features: {
     marginTop: SIZES.md,
@@ -231,5 +321,38 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: SIZES.fontSm,
     color: COLORS.text,
+  },
+  // Pending approval styles
+  pendingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: SIZES.xl,
+  },
+  pendingIcon: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: COLORS.warning + '20',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: SIZES.xl,
+  },
+  pendingTitle: {
+    fontSize: SIZES.fontXxl,
+    fontWeight: 'bold',
+    color: COLORS.text,
+    marginBottom: SIZES.md,
+    textAlign: 'center',
+  },
+  pendingSubtitle: {
+    fontSize: SIZES.fontMd,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    lineHeight: 24,
+    marginBottom: SIZES.xl,
+  },
+  retryButton: {
+    minWidth: 200,
   },
 });
