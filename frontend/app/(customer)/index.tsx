@@ -152,12 +152,6 @@ export default function CustomerHomeScreen() {
             color={COLORS.accent}
             badge={(user?.total_orders || 0) >= 3 ? user?.points?.toString() : undefined}
           />
-          <QuickActionButton
-            icon="location-outline"
-            label="العنوان"
-            onPress={() => router.push('/(customer)/profile')}
-            color={COLORS.info}
-          />
         </View>
 
         {/* New Products */}
