@@ -266,13 +266,16 @@ async def create_admin_user(user: UserCreate):
         # Update role if exists
         await db.users.update_one(
             {"_id": existing["_id"]},
-            {"$set": {"role": user.role, "name": user.name}}
+            {"$set": {"role": user.role, "name": user.name, "is_approved": True, "is_active": True}}
         )
         updated = await db.users.find_one({"_id": existing["_id"]})
         return serialize_doc(updated)
     
     new_user = UserBase(phone=user.phone, name=user.name, role=user.role).dict()
     new_user["created_at"] = datetime.utcnow()
+    # Admin-created accounts are auto-approved
+    new_user["is_approved"] = True
+    new_user["is_active"] = True
     result = await db.users.insert_one(new_user)
     created = await db.users.find_one({"_id": result.inserted_id})
     return serialize_doc(created)
