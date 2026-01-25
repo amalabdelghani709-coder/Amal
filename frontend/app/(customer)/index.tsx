@@ -18,7 +18,7 @@ import { useAuthStore } from '../../src/store/authStore';
 import { ProductCard } from '../../src/components/ProductCard';
 import { LoadingScreen } from '../../src/components/LoadingScreen';
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = '';
 
 interface Product {
   id: string;

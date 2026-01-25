@@ -19,7 +19,7 @@ import { Input } from '../../src/components/Input';
 import { Button } from '../../src/components/Button';
 import { LoadingScreen } from '../../src/components/LoadingScreen';
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = '';
 
 interface Product {
   id: string;

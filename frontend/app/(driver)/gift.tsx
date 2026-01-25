@@ -16,7 +16,7 @@ import { Button } from '../../src/components/Button';
 import { Input } from '../../src/components/Input';
 import QRCode from 'react-native-qrcode-svg';
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = '';
 
 interface Customer {
   id: string;

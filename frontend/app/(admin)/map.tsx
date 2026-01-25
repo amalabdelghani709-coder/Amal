@@ -17,7 +17,7 @@ import { COLORS, SIZES, SHADOWS } from '../../src/constants/theme';
 import { LoadingScreen } from '../../src/components/LoadingScreen';
 import { Button } from '../../src/components/Button';
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = '';
 
 interface Customer {
   id: string;

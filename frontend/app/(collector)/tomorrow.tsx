@@ -11,7 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES, SHADOWS } from '../../src/constants/theme';
 import { LoadingScreen } from '../../src/components/LoadingScreen';
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = '';
 
 interface ProductAggregate {
   _id: string;

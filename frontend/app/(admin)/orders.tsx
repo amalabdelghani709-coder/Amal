@@ -18,7 +18,7 @@ import { LoadingScreen } from '../../src/components/LoadingScreen';
 import { Button } from '../../src/components/Button';
 import { ORDER_STATUS, getStatusInfo } from '../../src/constants/orderStatus';
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = '';
 
 interface Order {
   id: string;

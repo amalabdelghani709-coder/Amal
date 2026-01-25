@@ -16,7 +16,7 @@ import { useAuthStore } from '../../src/store/authStore';
 import { Input } from '../../src/components/Input';
 import { Button } from '../../src/components/Button';
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = '';
 
 export default function ProfileScreen() {
   const router = useRouter();

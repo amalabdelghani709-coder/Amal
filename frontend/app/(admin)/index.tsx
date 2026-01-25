@@ -14,7 +14,7 @@ import { COLORS, SIZES, SHADOWS } from '../../src/constants/theme';
 import { useAuthStore } from '../../src/store/authStore';
 import { LoadingScreen } from '../../src/components/LoadingScreen';
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = '';
 
 interface Statistics {
   total_customers: number;
