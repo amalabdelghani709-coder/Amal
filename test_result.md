@@ -105,12 +105,12 @@
 user_problem_statement: |
   تطبيق "دار البقال" - تطبيق تسوق عبر الإنترنت لأصحاب المحلات التجارية
   - شق الزبون: تصفح المنتجات، إضافة للسلة، تأكيد الطلبية، تتبع الطلبات، نظام النقاط
-  - شق المتحكم: إدارة المنتجات، الطلبيات، الزبناء، الإحصائيات
-  - شق السائق: عرض الطلبيات، تحديث الحالة، توليد QR للهدية
+  - شق المتحكم: إدارة المنتجات، الطلبيات، الزبناء، الإحصائيات، تفعيل الحسابات، خريطة الزبناء، التخفيضات
+  - شق السائق: عرض الطلبيات، تحديث الحالة، مسار التوصيل، توليد QR للهدية
   - شق التجميع: تجميع الطلبيات، منتجات الغد، نفاد المخزون
 
 backend:
-  - task: "Auth API - Phone Login"
+  - task: "Auth API - Phone Login with Location"
     implemented: true
     working: true
     file: "/app/backend/server.py"
@@ -120,7 +120,19 @@ backend:
     status_history:
       - working: true
         agent: "main"
-        comment: "Tested with curl - login works correctly"
+        comment: "Login with location capture working - tested with curl"
+
+  - task: "Account Approval System"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Admin can approve/reject customer accounts - API tested"
 
   - task: "Products CRUD API"
     implemented: true
@@ -146,6 +158,30 @@ backend:
         agent: "main"
         comment: "Order creation tested - total calculation and points system working"
 
+  - task: "Customer Locations API"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "API returns customers with location data"
+
+  - task: "Discounts API"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Products can be marked/unmarked as discount"
+
   - task: "Settings API"
     implemented: true
     working: true
@@ -163,7 +199,7 @@ backend:
     needs_retesting: false
 
 frontend:
-  - task: "Login Screen"
+  - task: "Login Screen with Location Request"
     implemented: true
     working: true
     file: "/app/frontend/app/(auth)/login.tsx"
@@ -173,9 +209,21 @@ frontend:
     status_history:
       - working: true
         agent: "main"
-        comment: "Screenshot verified - Arabic UI working correctly"
+        comment: "Screenshot verified - Location permission request implemented"
 
-  - task: "Customer Home Screen"
+  - task: "Pending Approval Screen"
+    implemented: true
+    working: true
+    file: "/app/frontend/app/(auth)/login.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Shows waiting for approval message after registration"
+
+  - task: "Customer Home Screen with Carousels"
     implemented: true
     working: true
     file: "/app/frontend/app/(customer)/index.tsx"
@@ -185,79 +233,139 @@ frontend:
     status_history:
       - working: true
         agent: "main"
-        comment: "Products displayed, quick actions working"
+        comment: "Screenshot verified - New Products and Discounts carousels showing"
 
-  - task: "Products Screen"
+  - task: "Admin Customers with Approval"
     implemented: true
     working: true
-    file: "/app/frontend/app/(customer)/products.tsx"
+    file: "/app/frontend/app/(admin)/customers.tsx"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Pending approval banner shows, can approve/reject"
 
-  - task: "Cart Screen"
+  - task: "Admin Map Screen"
     implemented: true
     working: true
-    file: "/app/frontend/app/(customer)/cart.tsx"
+    file: "/app/frontend/app/(admin)/map.tsx"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Customer locations displayed, links to OpenStreetMap"
 
-  - task: "Orders Screen"
+  - task: "Admin Discounts Screen"
     implemented: true
     working: true
-    file: "/app/frontend/app/(customer)/orders.tsx"
+    file: "/app/frontend/app/(admin)/discounts.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Can add/remove products from discounts"
+
+  - task: "Admin Interface Screen (Banners)"
+    implemented: true
+    working: true
+    file: "/app/frontend/app/(admin)/interface.tsx"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Can upload/delete banner images"
 
-  - task: "Profile Screen"
+  - task: "Admin Create Staff Accounts"
     implemented: true
     working: true
-    file: "/app/frontend/app/(customer)/profile.tsx"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-
-  - task: "Admin Dashboard"
-    implemented: true
-    working: true
-    file: "/app/frontend/app/(admin)/index.tsx"
+    file: "/app/frontend/app/(admin)/more.tsx"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Can create driver and collector accounts"
 
-  - task: "Admin Products Management"
+  - task: "Driver Home Screen"
     implemented: true
     working: true
-    file: "/app/frontend/app/(admin)/products.tsx"
+    file: "/app/frontend/app/(driver)/index.tsx"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Screenshot verified - Shows daily orders"
 
-  - task: "Admin Orders Management"
+  - task: "Driver Route Screen"
     implemented: true
     working: true
-    file: "/app/frontend/app/(admin)/orders.tsx"
+    file: "/app/frontend/app/(driver)/route.tsx"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Shows delivery points, links to OpenStreetMap"
 
-  - task: "Driver Screens"
+  - task: "Driver Gift QR Screen"
     implemented: true
     working: true
-    file: "/app/frontend/app/(driver)/"
+    file: "/app/frontend/app/(driver)/gift.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "QR code generation for gift redemption"
+
+  - task: "Collector Home Screen"
+    implemented: true
+    working: true
+    file: "/app/frontend/app/(collector)/index.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Screenshot verified - Shows orders to collect"
+
+  - task: "Collector Tomorrow Products"
+    implemented: true
+    working: true
+    file: "/app/frontend/app/(collector)/tomorrow.tsx"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Shows aggregated products for tomorrow"
 
-  - task: "Collector Screens"
+  - task: "Collector Out of Stock"
     implemented: true
     working: true
-    file: "/app/frontend/app/(collector)/"
+    file: "/app/frontend/app/(collector)/outofstock.tsx"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Low stock products displayed, can mark as out of stock"
 
 metadata:
   created_by: "main_agent"
