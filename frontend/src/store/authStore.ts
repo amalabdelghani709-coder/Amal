@@ -33,7 +33,8 @@ interface AuthState {
   refreshUser: () => Promise<void>;
 }
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+// Use relative URL for API calls - works with proxy configuration
+const API_URL = '';
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
