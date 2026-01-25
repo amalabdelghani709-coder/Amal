@@ -134,7 +134,8 @@ export default function DriverOrdersScreen() {
 
   const handleLogout = async () => {
     await logout();
-    router.replace('/');
+    router.dismissAll();
+    router.replace('/(auth)/login');
   };
 
   if (isLoading) {
