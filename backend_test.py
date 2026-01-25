@@ -286,7 +286,7 @@ class BackendTester:
         
         # 1. Test getting today's orders (driver API)
         result = self.make_request("GET", "/orders/today")
-        if result and not result.get("error"):
+        if result is not None and not (isinstance(result, dict) and result.get("error")):
             today_orders = result if isinstance(result, list) else []
             self.log_result("Get Today's Orders", True, f"Found {len(today_orders)} orders for today")
         else:
@@ -294,7 +294,7 @@ class BackendTester:
         
         # 2. Test getting orders to collect (collector API)
         result = self.make_request("GET", "/orders/to-collect")
-        if result and not result.get("error"):
+        if result is not None and not (isinstance(result, dict) and result.get("error")):
             collect_orders = result if isinstance(result, list) else []
             self.log_result("Get Orders to Collect", True, f"Found {len(collect_orders)} orders to collect")
         else:
@@ -302,7 +302,7 @@ class BackendTester:
         
         # 3. Test getting products for tomorrow (collector API)
         result = self.make_request("GET", "/orders/products-tomorrow")
-        if result and not result.get("error"):
+        if result is not None and not (isinstance(result, dict) and result.get("error")):
             tomorrow_products = result if isinstance(result, list) else []
             self.log_result("Get Products for Tomorrow", True, f"Found {len(tomorrow_products)} product aggregations for tomorrow")
         else:
