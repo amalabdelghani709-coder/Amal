@@ -400,19 +400,21 @@ async def get_top_selling(limit: int = Query(20)):
     
     results = await db.orders.aggregate(pipeline).to_list(limit)
     
+    # Batch fetch all products to avoid N+1 query
+    product_ids = [ObjectId(item["_id"]) for item in results if item.get("_id")]
+    products_cursor = await db.products.find({"_id": {"$in": product_ids}}).to_list(len(product_ids))
+    products_map = {str(p["_id"]): p for p in products_cursor}
+    
     # Enrich with product details
     enriched = []
     for item in results:
-        try:
-            product = await db.products.find_one({"_id": ObjectId(item["_id"])})
-            if product:
-                enriched.append({
-                    "product": serialize_doc(product),
-                    "total_sold": item["total_sold"],
-                    "total_revenue": item["total_revenue"]
-                })
-        except:
-            pass
+        product = products_map.get(str(item["_id"]))
+        if product:
+            enriched.append({
+                "product": serialize_doc(product),
+                "total_sold": item["total_sold"],
+                "total_revenue": item["total_revenue"]
+            })
     
     return enriched
 
