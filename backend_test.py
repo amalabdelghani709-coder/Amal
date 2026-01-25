@@ -152,7 +152,7 @@ class BackendTester:
         
         # 1. Test getting customers with locations
         result = self.make_request("GET", "/customers/locations")
-        if result and not result.get("error"):
+        if result is not None and not (isinstance(result, dict) and result.get("error")):
             customers = result if isinstance(result, list) else []
             customers_with_location = [c for c in customers if c.get("latitude") and c.get("longitude")]
             self.log_result("Get Customer Locations", True, f"Found {len(customers_with_location)} customers with locations")
