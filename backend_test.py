@@ -109,7 +109,7 @@ class BackendTester:
         
         # 2. Test getting pending users
         result = self.make_request("GET", "/admin/users/pending")
-        if result and not result.get("error"):
+        if result is not None and not (isinstance(result, dict) and result.get("error")):
             pending_users = result if isinstance(result, list) else []
             self.log_result("Get Pending Users", True, f"Found {len(pending_users)} pending users")
         else:
