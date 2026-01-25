@@ -34,7 +34,7 @@ interface AuthState {
 }
 
 // Use relative URL for API calls - works with proxy configuration
-const API_URL = '';
+const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,

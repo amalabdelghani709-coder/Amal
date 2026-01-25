@@ -16,7 +16,7 @@ import { useCartStore, CartItem } from '../../src/store/cartStore';
 import { useAuthStore } from '../../src/store/authStore';
 import { Button } from '../../src/components/Button';
 
-const API_URL = '';
+const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
 
 export default function CartScreen() {
   const router = useRouter();

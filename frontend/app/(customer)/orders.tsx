@@ -14,7 +14,7 @@ import { useAuthStore } from '../../src/store/authStore';
 import { OrderCard } from '../../src/components/OrderCard';
 import { LoadingScreen } from '../../src/components/LoadingScreen';
 
-const API_URL = '';
+const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
 
 interface Order {
   id: string;
