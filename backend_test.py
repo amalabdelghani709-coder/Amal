@@ -227,7 +227,7 @@ class BackendTester:
         
         # 3. Test getting discount products (should include our product now)
         result = self.make_request("GET", "/products", params={"is_discount": "true"})
-        if result and not result.get("error"):
+        if result is not None and not (isinstance(result, dict) and result.get("error")):
             discount_products = result if isinstance(result, list) else []
             our_product = next((p for p in discount_products if p.get("id") == product_id), None)
             if our_product:
