@@ -29,7 +29,8 @@ export default function AdminMoreScreen() {
 
   const handleLogout = async () => {
     await logout();
-    router.replace('/');
+    router.dismissAll();
+    router.replace('/(auth)/login');
   };
 
   const openCreateModal = (role: 'driver' | 'collector') => {
