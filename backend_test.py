@@ -207,7 +207,7 @@ class BackendTester:
         
         # 1. Test getting discount products (should be empty initially)
         result = self.make_request("GET", "/products", params={"is_discount": "true"})
-        if result and not result.get("error"):
+        if result is not None and not (isinstance(result, dict) and result.get("error")):
             discount_products = result if isinstance(result, list) else []
             self.log_result("Get Discount Products (Initial)", True, f"Found {len(discount_products)} discount products initially")
         else:
