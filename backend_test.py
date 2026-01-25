@@ -358,7 +358,7 @@ class BackendTester:
         
         # Test product categories
         result = self.make_request("GET", "/products/categories")
-        if result and not result.get("error"):
+        if result is not None and not (isinstance(result, dict) and result.get("error")):
             categories = result if isinstance(result, list) else []
             self.log_result("Get Product Categories", True, f"Found {len(categories)} product categories")
         else:
