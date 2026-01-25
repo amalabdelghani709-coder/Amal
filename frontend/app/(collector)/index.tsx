@@ -77,7 +77,8 @@ export default function CollectorScreen() {
 
   const handleLogout = async () => {
     await logout();
-    router.replace('/');
+    router.dismissAll();
+    router.replace('/(auth)/login');
   };
 
   if (isLoading) {
