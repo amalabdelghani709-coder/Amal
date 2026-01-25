@@ -80,7 +80,9 @@ export default function ProfileScreen() {
           style: 'destructive',
           onPress: async () => {
             await logout();
-            router.replace('/');
+            // Use dismissAll to clear the navigation stack, then navigate
+            router.dismissAll();
+            router.replace('/(auth)/login');
           },
         },
       ]
