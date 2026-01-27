@@ -59,8 +59,9 @@ const AVAILABLE_ICONS = [
 ];
 
 const COLOR_PRESETS = [
+  'transparent', '#FFFFFF', '#F5F5F5', '#E0E0E0', '#212121', '#000000',
   '#2E7D32', '#1976D2', '#7B1FA2', '#C62828', '#F57C00', '#00796B',
-  '#5D4037', '#455A64', '#E91E63', '#3F51B5', '#009688', '#FF5722',
+  '#5D4037', '#455A64', '#E91E63', '#3F51B5', '#009688', '#FF5722', '#FFC107',
 ];
 
 export default function AdminInterfaceScreen() {
