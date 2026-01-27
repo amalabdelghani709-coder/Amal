@@ -515,22 +515,18 @@ export default function LoginSettingsScreen() {
 
             <View style={styles.colorGroup}>
               <Text style={styles.colorLabel}>خلفية الحقول</Text>
-              <View style={[styles.colorPreview, { backgroundColor: settings.login_fields_bg_color }]}>
-                {settings.login_fields_bg_color === 'transparent' && <Ionicons name="grid-outline" size={14} color="#999" />}
-              </View>
+              <View style={[styles.colorPreview, { backgroundColor: settings.login_fields_bg_color }]} />
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
                     key={`field-${color}`}
                     style={[
                       styles.colorOption,
-                      { backgroundColor: color === 'transparent' ? '#FFFFFF' : color },
+                      { backgroundColor: color },
                       settings.login_fields_bg_color === color && styles.colorSelected,
                     ]}
                     onPress={() => updateSettings({ login_fields_bg_color: color })}
-                  >
-                    {color === 'transparent' && <Ionicons name="grid-outline" size={18} color="#999" />}
-                  </TouchableOpacity>
+                  />
                 ))}
               </View>
             </View>
