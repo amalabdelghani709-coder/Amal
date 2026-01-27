@@ -276,22 +276,18 @@ export default function AdminInterfaceScreen() {
             {/* Primary Color */}
             <View style={styles.colorSection}>
               <Text style={styles.colorLabel}>اللون الرئيسي</Text>
-              <View style={[styles.colorPreview, { backgroundColor: settings.primary_color }]}>
-                {settings.primary_color === 'transparent' && <Ionicons name="grid-outline" size={12} color="#999" />}
-              </View>
+              <View style={[styles.colorPreview, { backgroundColor: settings.primary_color }]} />
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
                     key={color}
                     style={[
                       styles.colorOption,
-                      { backgroundColor: color === 'transparent' ? '#FFFFFF' : color },
+                      { backgroundColor: color },
                       settings.primary_color === color && styles.colorSelected,
                     ]}
                     onPress={() => updateSettings({ primary_color: color })}
-                  >
-                    {color === 'transparent' && <Ionicons name="grid-outline" size={16} color="#999" />}
-                  </TouchableOpacity>
+                  />
                 ))}
               </View>
             </View>
@@ -299,22 +295,18 @@ export default function AdminInterfaceScreen() {
             {/* Secondary Color */}
             <View style={styles.colorSection}>
               <Text style={styles.colorLabel}>اللون الثانوي</Text>
-              <View style={[styles.colorPreview, { backgroundColor: settings.secondary_color }]}>
-                {settings.secondary_color === 'transparent' && <Ionicons name="grid-outline" size={12} color="#999" />}
-              </View>
+              <View style={[styles.colorPreview, { backgroundColor: settings.secondary_color }]} />
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
                     key={color}
                     style={[
                       styles.colorOption,
-                      { backgroundColor: color === 'transparent' ? '#FFFFFF' : color },
+                      { backgroundColor: color },
                       settings.secondary_color === color && styles.colorSelected,
                     ]}
                     onPress={() => updateSettings({ secondary_color: color })}
-                  >
-                    {color === 'transparent' && <Ionicons name="grid-outline" size={16} color="#999" />}
-                  </TouchableOpacity>
+                  />
                 ))}
               </View>
             </View>
@@ -322,22 +314,18 @@ export default function AdminInterfaceScreen() {
             {/* Accent Color */}
             <View style={styles.colorSection}>
               <Text style={styles.colorLabel}>لون التمييز</Text>
-              <View style={[styles.colorPreview, { backgroundColor: settings.accent_color }]}>
-                {settings.accent_color === 'transparent' && <Ionicons name="grid-outline" size={12} color="#999" />}
-              </View>
+              <View style={[styles.colorPreview, { backgroundColor: settings.accent_color }]} />
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
                     key={color}
                     style={[
                       styles.colorOption,
-                      { backgroundColor: color === 'transparent' ? '#FFFFFF' : color },
+                      { backgroundColor: color },
                       settings.accent_color === color && styles.colorSelected,
                     ]}
                     onPress={() => updateSettings({ accent_color: color })}
-                  >
-                    {color === 'transparent' && <Ionicons name="grid-outline" size={16} color="#999" />}
-                  </TouchableOpacity>
+                  />
                 ))}
               </View>
             </View>
