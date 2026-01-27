@@ -64,6 +64,7 @@ const COLOR_PRESETS = [
 ];
 
 export default function AdminInterfaceScreen() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
