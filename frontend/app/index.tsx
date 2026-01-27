@@ -12,16 +12,19 @@ export default function Index() {
   useEffect(() => {
     if (!isLoading) {
       if (isAuthenticated && user) {
-        // Redirect based on role
+        // Redirect based on role - Order: Customer, Admin, Collector, Driver
         switch (user.role) {
+          case 'customer':
+            router.replace('/(customer)');
+            break;
           case 'admin':
             router.replace('/(admin)');
             break;
-          case 'driver':
-            router.replace('/(driver)');
-            break;
           case 'collector':
             router.replace('/(collector)');
+            break;
+          case 'driver':
+            router.replace('/(driver)');
             break;
           default:
             router.replace('/(customer)');
