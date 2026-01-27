@@ -70,13 +70,21 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = async () => {
-    // Direct logout without confirmation for better compatibility
     try {
       await logout();
-      router.replace('/(auth)/login');
+      // Force navigation using multiple methods for cross-platform compatibility
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      } else {
+        router.replace('/(auth)/login');
+      }
     } catch (error) {
       console.error('Logout error:', error);
-      router.replace('/(auth)/login');
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      } else {
+        router.replace('/(auth)/login');
+      }
     }
   };
 
