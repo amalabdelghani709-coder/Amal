@@ -79,10 +79,13 @@ export default function ProfileScreen() {
           text: 'خروج',
           style: 'destructive',
           onPress: async () => {
-            await logout();
-            // Use dismissAll to clear the navigation stack, then navigate
-            router.dismissAll();
-            router.replace('/(auth)/login');
+            try {
+              await logout();
+              router.replace('/(auth)/login');
+            } catch (error) {
+              console.error('Logout error:', error);
+              router.replace('/(auth)/login');
+            }
           },
         },
       ]
