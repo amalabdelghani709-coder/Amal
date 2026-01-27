@@ -181,6 +181,23 @@ export default function AdminInterfaceScreen() {
         <Text style={styles.subtitle}>تخصيص مظهر التطبيق</Text>
       </View>
 
+      {/* Login Screen Settings Button */}
+      <TouchableOpacity 
+        style={styles.loginSettingsBtn}
+        onPress={() => router.push('/(admin)/login-settings')}
+      >
+        <View style={styles.loginSettingsBtnContent}>
+          <View style={styles.loginSettingsIcon}>
+            <Ionicons name="log-in-outline" size={24} color={COLORS.primary} />
+          </View>
+          <View style={styles.loginSettingsText}>
+            <Text style={styles.loginSettingsTitle}>التحكم في واجهة تسجيل الدخول</Text>
+            <Text style={styles.loginSettingsDesc}>تعديل الخلفية والألوان والنصوص</Text>
+          </View>
+        </View>
+        <Ionicons name="chevron-back" size={20} color={COLORS.textSecondary} />
+      </TouchableOpacity>
+
       {/* Tabs */}
       <ScrollView 
         horizontal 
