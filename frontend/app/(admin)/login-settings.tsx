@@ -1023,6 +1023,15 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     borderWidth: 1,
     borderColor: COLORS.border,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  transparentPattern: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#FFFFFF',
   },
   colorSelected: {
     borderWidth: 3,
