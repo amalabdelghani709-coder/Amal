@@ -240,9 +240,42 @@ export default function LoginScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <View style={[styles.logoCircle, { backgroundColor: '#FFFFFF30' }]}>
-            <Text style={styles.logoEmoji}>🛒</Text>
-          </View>
+          {/* Dynamic Logo - Image or Emoji */}
+          {settings.login_logo_mode === 'image' && settings.login_logo_image ? (
+            <View style={[
+              styles.logoCircle, 
+              { 
+                backgroundColor: '#FFFFFF30',
+                width: settings.login_logo_size,
+                height: settings.login_logo_size,
+                borderRadius: settings.login_logo_size / 2,
+              }
+            ]}>
+              <Image
+                source={{ uri: settings.login_logo_image }}
+                style={{
+                  width: settings.login_logo_size * 0.8,
+                  height: settings.login_logo_size * 0.8,
+                  borderRadius: (settings.login_logo_size * 0.8) / 2,
+                }}
+                resizeMode="contain"
+              />
+            </View>
+          ) : (
+            <View style={[
+              styles.logoCircle, 
+              { 
+                backgroundColor: '#FFFFFF30',
+                width: settings.login_logo_size,
+                height: settings.login_logo_size,
+                borderRadius: settings.login_logo_size / 2,
+              }
+            ]}>
+              <Text style={[styles.logoEmoji, { fontSize: settings.login_logo_size * 0.5 }]}>
+                {settings.login_logo_emoji}
+              </Text>
+            </View>
+          )}
           <Text style={[styles.title, { color: '#FFFFFF' }]}>{settings.store_name}</Text>
           <Text style={[styles.subtitle, { color: '#FFFFFF90' }]}>مرحباً بك في متجرك المفضل</Text>
         </View>
