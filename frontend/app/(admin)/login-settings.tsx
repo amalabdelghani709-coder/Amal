@@ -40,6 +40,15 @@ const BACKGROUND_MODES = [
   { value: 'stretch', label: 'تمديد' },
 ];
 
+const LOGO_SIZE_OPTIONS = [
+  { value: 60, label: 'صغير' },
+  { value: 80, label: 'متوسط' },
+  { value: 100, label: 'كبير' },
+  { value: 120, label: 'كبير جداً' },
+];
+
+const EMOJI_OPTIONS = ['🛒', '🏪', '🛍️', '🏬', '🛒', '🧺', '📦', '🎁', '⭐', '💎'];
+
 interface LoginSettings {
   login_background_image: string;
   login_background_mode: string;
@@ -56,6 +65,11 @@ interface LoginSettings {
   login_error_phone_required: string;
   login_error_phone_invalid: string;
   login_error_generic: string;
+  // Logo settings
+  login_logo_image: string;
+  login_logo_mode: string;
+  login_logo_emoji: string;
+  login_logo_size: number;
 }
 
 export default function LoginSettingsScreen() {
@@ -64,7 +78,7 @@ export default function LoginSettingsScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [settings, setSettings] = useState<LoginSettings | null>(null);
-  const [activeTab, setActiveTab] = useState<'background' | 'texts' | 'colors' | 'shapes' | 'errors'>('background');
+  const [activeTab, setActiveTab] = useState<'logo' | 'background' | 'texts' | 'colors' | 'shapes' | 'errors'>('logo');
 
   const fetchSettings = useCallback(async () => {
     try {
@@ -81,12 +95,17 @@ export default function LoginSettingsScreen() {
           login_fields_text_color: data.login_fields_text_color || '#212121',
           login_button_color: data.login_button_color || '#2E7D32',
           login_button_text_color: data.login_button_text_color || '#FFFFFF',
-          login_fields_border_radius: data.login_fields_border_radius || 12,
-          login_button_border_radius: data.login_button_border_radius || 12,
+          login_fields_border_radius: data.login_fields_border_radius ?? 12,
+          login_button_border_radius: data.login_button_border_radius ?? 12,
           login_error_name_required: data.login_error_name_required || 'الرجاء إدخال اسمك (على الأقل حرفين)',
           login_error_phone_required: data.login_error_phone_required || 'الرجاء إدخال رقم الهاتف',
           login_error_phone_invalid: data.login_error_phone_invalid || 'رقم الهاتف غير صحيح',
           login_error_generic: data.login_error_generic || 'فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى',
+          // Logo settings
+          login_logo_image: data.login_logo_image || '',
+          login_logo_mode: data.login_logo_mode || 'emoji',
+          login_logo_emoji: data.login_logo_emoji || '🛒',
+          login_logo_size: data.login_logo_size || 100,
         });
       }
     } catch (error) {
@@ -128,7 +147,7 @@ export default function LoginSettingsScreen() {
     }
   };
 
-  const pickImage = async () => {
+  const pickBackgroundImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -143,7 +162,37 @@ export default function LoginSettingsScreen() {
     }
   };
 
-  const removeImage = () => {
+  const pickLogoImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+      base64: true,
+    });
+
+    if (!result.canceled && result.assets[0].base64) {
+      const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+      updateSettings({ login_logo_image: base64Image, login_logo_mode: 'image' });
+    }
+  };
+
+  const removeLogoImage = () => {
+    Alert.alert(
+      'حذف الصورة',
+      'هل تريد حذف صورة اللوغو والعودة للإيموجي؟',
+      [
+        { text: 'إلغاء', style: 'cancel' },
+        {
+          text: 'حذف',
+          style: 'destructive',
+          onPress: () => updateSettings({ login_logo_image: '', login_logo_mode: 'emoji' }),
+        },
+      ]
+    );
+  };
+
+  const removeBackgroundImage = () => {
     Alert.alert(
       'حذف الصورة',
       'هل تريد حذف صورة الخلفية؟',
@@ -163,7 +212,8 @@ export default function LoginSettingsScreen() {
   }
 
   const tabs = [
-    { id: 'background', label: 'الخلفية', icon: 'image-outline' },
+    { id: 'logo', label: 'اللوغو', icon: 'image-outline' },
+    { id: 'background', label: 'الخلفية', icon: 'layers-outline' },
     { id: 'texts', label: 'النصوص', icon: 'text-outline' },
     { id: 'colors', label: 'الألوان', icon: 'color-palette-outline' },
     { id: 'shapes', label: 'الأشكال', icon: 'shapes-outline' },
@@ -193,33 +243,41 @@ export default function LoginSettingsScreen() {
             />
           ) : null}
           <View style={styles.previewContent}>
+            {/* Logo Preview */}
+            <View style={[styles.previewLogo, { width: settings.login_logo_size / 3, height: settings.login_logo_size / 3 }]}>
+              {settings.login_logo_mode === 'image' && settings.login_logo_image ? (
+                <Image source={{ uri: settings.login_logo_image }} style={styles.previewLogoImage} />
+              ) : (
+                <Text style={{ fontSize: settings.login_logo_size / 6 }}>{settings.login_logo_emoji}</Text>
+              )}
+            </View>
             <View style={[
               styles.previewField,
               { 
                 backgroundColor: settings.login_fields_bg_color,
-                borderRadius: settings.login_fields_border_radius,
+                borderRadius: settings.login_fields_border_radius / 3,
               }
             ]}>
               <Text style={[styles.previewFieldText, { color: settings.login_fields_text_color + '80' }]}>
-                {settings.login_name_placeholder}
+                {settings.login_name_placeholder.slice(0, 15)}...
               </Text>
             </View>
             <View style={[
               styles.previewField,
               { 
                 backgroundColor: settings.login_fields_bg_color,
-                borderRadius: settings.login_fields_border_radius,
+                borderRadius: settings.login_fields_border_radius / 3,
               }
             ]}>
               <Text style={[styles.previewFieldText, { color: settings.login_fields_text_color + '80' }]}>
-                {settings.login_phone_placeholder}
+                {settings.login_phone_placeholder.slice(0, 15)}...
               </Text>
             </View>
             <View style={[
               styles.previewButton,
               { 
                 backgroundColor: settings.login_button_color,
-                borderRadius: settings.login_button_border_radius,
+                borderRadius: settings.login_button_border_radius / 3,
               }
             ]}>
               <Text style={[styles.previewButtonText, { color: settings.login_button_text_color }]}>
@@ -263,6 +321,102 @@ export default function LoginSettingsScreen() {
         }
         contentContainerStyle={styles.content}
       >
+        {/* Logo Tab */}
+        {activeTab === 'logo' && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>الصورة فوق اسم المتجر (اللوغو)</Text>
+            <Text style={styles.sectionDesc}>الصورة أو الإيموجي الذي يظهر فوق اسم "دار البقال"</Text>
+            
+            {/* Logo Mode Selection */}
+            <Text style={styles.subLabel}>نوع اللوغو</Text>
+            <View style={styles.optionsRow}>
+              <TouchableOpacity
+                style={[styles.optionBtn, settings.login_logo_mode === 'emoji' && styles.optionBtnActive]}
+                onPress={() => updateSettings({ login_logo_mode: 'emoji' })}
+              >
+                <Text style={[styles.optionText, settings.login_logo_mode === 'emoji' && styles.optionTextActive]}>
+                  إيموجي
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.optionBtn, settings.login_logo_mode === 'image' && styles.optionBtnActive]}
+                onPress={() => updateSettings({ login_logo_mode: 'image' })}
+              >
+                <Text style={[styles.optionText, settings.login_logo_mode === 'image' && styles.optionTextActive]}>
+                  صورة
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Emoji Selection */}
+            {settings.login_logo_mode === 'emoji' && (
+              <>
+                <Text style={styles.subLabel}>اختر الإيموجي</Text>
+                <View style={styles.emojiGrid}>
+                  {EMOJI_OPTIONS.map((emoji, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={[
+                        styles.emojiOption,
+                        settings.login_logo_emoji === emoji && styles.emojiOptionActive,
+                      ]}
+                      onPress={() => updateSettings({ login_logo_emoji: emoji })}
+                    >
+                      <Text style={styles.emojiText}>{emoji}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </>
+            )}
+
+            {/* Image Upload */}
+            {settings.login_logo_mode === 'image' && (
+              <>
+                <Text style={styles.subLabel}>صورة اللوغو</Text>
+                {settings.login_logo_image ? (
+                  <View style={styles.logoImageContainer}>
+                    <Image source={{ uri: settings.login_logo_image }} style={styles.logoImage} />
+                    <TouchableOpacity style={styles.removeLogoBtn} onPress={removeLogoImage}>
+                      <Ionicons name="trash" size={20} color={COLORS.white} />
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <TouchableOpacity style={styles.uploadBox} onPress={pickLogoImage}>
+                    <Ionicons name="cloud-upload-outline" size={48} color={COLORS.primary} />
+                    <Text style={styles.uploadText}>اضغط لتحميل صورة</Text>
+                  </TouchableOpacity>
+                )}
+                <Button
+                  title="تغيير الصورة"
+                  onPress={pickLogoImage}
+                  variant="outline"
+                  style={{ marginTop: SIZES.md }}
+                />
+              </>
+            )}
+
+            {/* Logo Size */}
+            <Text style={styles.subLabel}>حجم اللوغو</Text>
+            <View style={styles.sizeOptions}>
+              {LOGO_SIZE_OPTIONS.map((opt) => (
+                <TouchableOpacity
+                  key={opt.value}
+                  style={[
+                    styles.sizeOption,
+                    settings.login_logo_size === opt.value && styles.sizeOptionActive,
+                  ]}
+                  onPress={() => updateSettings({ login_logo_size: opt.value })}
+                >
+                  <Text style={[
+                    styles.sizeText,
+                    settings.login_logo_size === opt.value && styles.sizeTextActive,
+                  ]}>{opt.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        )}
+
         {/* Background Tab */}
         {activeTab === 'background' && (
           <View style={styles.section}>
@@ -271,12 +425,12 @@ export default function LoginSettingsScreen() {
             {settings.login_background_image ? (
               <View style={styles.imageContainer}>
                 <Image source={{ uri: settings.login_background_image }} style={styles.bgImage} />
-                <TouchableOpacity style={styles.removeImageBtn} onPress={removeImage}>
+                <TouchableOpacity style={styles.removeImageBtn} onPress={removeBackgroundImage}>
                   <Ionicons name="trash" size={20} color={COLORS.white} />
                 </TouchableOpacity>
               </View>
             ) : (
-              <TouchableOpacity style={styles.uploadBox} onPress={pickImage}>
+              <TouchableOpacity style={styles.uploadBox} onPress={pickBackgroundImage}>
                 <Ionicons name="cloud-upload-outline" size={48} color={COLORS.primary} />
                 <Text style={styles.uploadText}>اضغط لتحميل صورة</Text>
               </TouchableOpacity>
@@ -307,7 +461,7 @@ export default function LoginSettingsScreen() {
 
             <Button
               title="تغيير الصورة"
-              onPress={pickImage}
+              onPress={pickBackgroundImage}
               variant="outline"
               style={{ marginTop: SIZES.md }}
             />
@@ -361,7 +515,7 @@ export default function LoginSettingsScreen() {
 
             <View style={styles.colorGroup}>
               <Text style={styles.colorLabel}>خلفية الحقول</Text>
-              <View style={styles.colorPreview} backgroundColor={settings.login_fields_bg_color} />
+              <View style={[styles.colorPreview, { backgroundColor: settings.login_fields_bg_color }]} />
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
@@ -379,7 +533,7 @@ export default function LoginSettingsScreen() {
 
             <View style={styles.colorGroup}>
               <Text style={styles.colorLabel}>نص الحقول</Text>
-              <View style={styles.colorPreview} backgroundColor={settings.login_fields_text_color} />
+              <View style={[styles.colorPreview, { backgroundColor: settings.login_fields_text_color }]} />
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
@@ -397,7 +551,7 @@ export default function LoginSettingsScreen() {
 
             <View style={styles.colorGroup}>
               <Text style={styles.colorLabel}>لون زر الدخول</Text>
-              <View style={styles.colorPreview} backgroundColor={settings.login_button_color} />
+              <View style={[styles.colorPreview, { backgroundColor: settings.login_button_color }]} />
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
@@ -415,7 +569,7 @@ export default function LoginSettingsScreen() {
 
             <View style={styles.colorGroup}>
               <Text style={styles.colorLabel}>نص زر الدخول</Text>
-              <View style={styles.colorPreview} backgroundColor={settings.login_button_text_color} />
+              <View style={[styles.colorPreview, { backgroundColor: settings.login_button_text_color }]} />
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
@@ -436,7 +590,7 @@ export default function LoginSettingsScreen() {
         {/* Shapes Tab */}
         {activeTab === 'shapes' && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>شكل الحقول</Text>
+            <Text style={styles.sectionTitle}>شكل الحقول والزر</Text>
 
             <Text style={styles.subLabel}>انحناء حقول الإدخال</Text>
             <View style={styles.radiusOptions}>
@@ -591,25 +745,40 @@ const styles = StyleSheet.create({
   previewContent: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     padding: SIZES.sm,
-    gap: 6,
+    gap: 4,
   },
-  previewField: {
-    height: 24,
-    justifyContent: 'center',
-    paddingHorizontal: 8,
-  },
-  previewFieldText: {
-    fontSize: 8,
-  },
-  previewButton: {
-    height: 28,
+  previewLogo: {
+    borderRadius: 50,
+    backgroundColor: 'rgba(255,255,255,0.3)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 4,
+    marginBottom: 4,
+    overflow: 'hidden',
+  },
+  previewLogoImage: {
+    width: '100%',
+    height: '100%',
+  },
+  previewField: {
+    width: '90%',
+    height: 20,
+    justifyContent: 'center',
+    paddingHorizontal: 6,
+  },
+  previewFieldText: {
+    fontSize: 6,
+  },
+  previewButton: {
+    width: '90%',
+    height: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 2,
   },
   previewButtonText: {
-    fontSize: 10,
+    fontSize: 8,
     fontWeight: 'bold',
   },
   previewLabel: {
@@ -659,8 +828,85 @@ const styles = StyleSheet.create({
     fontSize: SIZES.fontMd,
     fontWeight: 'bold',
     color: COLORS.text,
+    marginBottom: SIZES.xs,
+    textAlign: 'right',
+  },
+  sectionDesc: {
+    fontSize: SIZES.fontSm,
+    color: COLORS.textSecondary,
     marginBottom: SIZES.md,
     textAlign: 'right',
+  },
+  // Logo
+  emojiGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: SIZES.sm,
+  },
+  emojiOption: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: COLORS.background,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  emojiOptionActive: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary + '20',
+  },
+  emojiText: {
+    fontSize: 28,
+  },
+  logoImageContainer: {
+    position: 'relative',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    overflow: 'hidden',
+    alignSelf: 'center',
+  },
+  logoImage: {
+    width: '100%',
+    height: '100%',
+  },
+  removeLogoBtn: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: COLORS.error,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  sizeOptions: {
+    flexDirection: 'row',
+    gap: SIZES.sm,
+    flexWrap: 'wrap',
+  },
+  sizeOption: {
+    paddingVertical: SIZES.sm,
+    paddingHorizontal: SIZES.md,
+    borderRadius: SIZES.radiusMd,
+    backgroundColor: COLORS.background,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  sizeOptionActive: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  sizeText: {
+    fontSize: SIZES.fontSm,
+    color: COLORS.textSecondary,
+  },
+  sizeTextActive: {
+    color: COLORS.white,
+    fontWeight: '600',
   },
   // Image
   imageContainer: {
