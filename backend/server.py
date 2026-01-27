@@ -249,6 +249,11 @@ class SettingsUpdate(BaseModel):
     login_error_phone_required: Optional[str] = None
     login_error_phone_invalid: Optional[str] = None
     login_error_generic: Optional[str] = None
+    # Logo Settings
+    login_logo_image: Optional[str] = None
+    login_logo_mode: Optional[str] = None
+    login_logo_emoji: Optional[str] = None
+    login_logo_size: Optional[int] = None
 
 class PointsTransaction(BaseModel):
     user_id: str
