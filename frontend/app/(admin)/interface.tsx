@@ -787,6 +787,10 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radiusMd,
     marginBottom: SIZES.sm,
     alignSelf: 'flex-end',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   colorPalette: {
     flexDirection: 'row',
