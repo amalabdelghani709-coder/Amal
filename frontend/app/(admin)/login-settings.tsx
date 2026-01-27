@@ -515,68 +515,82 @@ export default function LoginSettingsScreen() {
 
             <View style={styles.colorGroup}>
               <Text style={styles.colorLabel}>خلفية الحقول</Text>
-              <View style={[styles.colorPreview, { backgroundColor: settings.login_fields_bg_color }]} />
+              <View style={[styles.colorPreview, { backgroundColor: settings.login_fields_bg_color }]}>
+                {settings.login_fields_bg_color === 'transparent' && <Ionicons name="grid-outline" size={14} color="#999" />}
+              </View>
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
                     key={`field-${color}`}
                     style={[
                       styles.colorOption,
-                      { backgroundColor: color },
+                      { backgroundColor: color === 'transparent' ? '#FFFFFF' : color },
                       settings.login_fields_bg_color === color && styles.colorSelected,
                     ]}
                     onPress={() => updateSettings({ login_fields_bg_color: color })}
-                  />
+                  >
+                    {color === 'transparent' && <Ionicons name="grid-outline" size={18} color="#999" />}
+                  </TouchableOpacity>
                 ))}
               </View>
             </View>
 
             <View style={styles.colorGroup}>
               <Text style={styles.colorLabel}>نص الحقول</Text>
-              <View style={[styles.colorPreview, { backgroundColor: settings.login_fields_text_color }]} />
+              <View style={[styles.colorPreview, { backgroundColor: settings.login_fields_text_color }]}>
+                {settings.login_fields_text_color === 'transparent' && <Ionicons name="grid-outline" size={14} color="#999" />}
+              </View>
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
                     key={`text-${color}`}
                     style={[
                       styles.colorOption,
-                      { backgroundColor: color },
+                      { backgroundColor: color === 'transparent' ? '#FFFFFF' : color },
                       settings.login_fields_text_color === color && styles.colorSelected,
                     ]}
                     onPress={() => updateSettings({ login_fields_text_color: color })}
-                  />
+                  >
+                    {color === 'transparent' && <Ionicons name="grid-outline" size={18} color="#999" />}
+                  </TouchableOpacity>
                 ))}
               </View>
             </View>
 
             <View style={styles.colorGroup}>
               <Text style={styles.colorLabel}>لون زر الدخول</Text>
-              <View style={[styles.colorPreview, { backgroundColor: settings.login_button_color }]} />
+              <View style={[styles.colorPreview, { backgroundColor: settings.login_button_color }]}>
+                {settings.login_button_color === 'transparent' && <Ionicons name="grid-outline" size={14} color="#999" />}
+              </View>
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
                     key={`btn-${color}`}
                     style={[
                       styles.colorOption,
-                      { backgroundColor: color },
+                      { backgroundColor: color === 'transparent' ? '#FFFFFF' : color },
                       settings.login_button_color === color && styles.colorSelected,
                     ]}
                     onPress={() => updateSettings({ login_button_color: color })}
-                  />
+                  >
+                    {color === 'transparent' && <Ionicons name="grid-outline" size={18} color="#999" />}
+                  </TouchableOpacity>
                 ))}
               </View>
             </View>
 
             <View style={styles.colorGroup}>
               <Text style={styles.colorLabel}>نص زر الدخول</Text>
-              <View style={[styles.colorPreview, { backgroundColor: settings.login_button_text_color }]} />
+              <View style={[styles.colorPreview, { backgroundColor: settings.login_button_text_color }]}>
+                {settings.login_button_text_color === 'transparent' && <Ionicons name="grid-outline" size={14} color="#999" />}
+              </View>
               <View style={styles.colorPalette}>
                 {COLOR_PRESETS.map((color) => (
                   <TouchableOpacity
                     key={`btntext-${color}`}
                     style={[
                       styles.colorOption,
-                      { backgroundColor: color },
+                      { backgroundColor: color === 'transparent' ? '#FFFFFF' : color },
                       settings.login_button_text_color === color && styles.colorSelected,
                     ]}
                     onPress={() => updateSettings({ login_button_text_color: color })}
