@@ -228,6 +228,22 @@ class SettingsUpdate(BaseModel):
     home_icon: Optional[str] = None
     profile_icon: Optional[str] = None
     orders_icon: Optional[str] = None
+    # Login Screen Settings
+    login_background_image: Optional[str] = None
+    login_background_mode: Optional[str] = None
+    login_name_placeholder: Optional[str] = None
+    login_phone_placeholder: Optional[str] = None
+    login_button_text: Optional[str] = None
+    login_fields_bg_color: Optional[str] = None
+    login_fields_text_color: Optional[str] = None
+    login_button_color: Optional[str] = None
+    login_button_text_color: Optional[str] = None
+    login_fields_border_radius: Optional[int] = None
+    login_button_border_radius: Optional[int] = None
+    login_error_name_required: Optional[str] = None
+    login_error_phone_required: Optional[str] = None
+    login_error_phone_invalid: Optional[str] = None
+    login_error_generic: Optional[str] = None
 
 class PointsTransaction(BaseModel):
     user_id: str
