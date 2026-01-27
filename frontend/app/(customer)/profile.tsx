@@ -69,27 +69,15 @@ export default function ProfileScreen() {
     }
   };
 
-  const handleLogout = () => {
-    Alert.alert(
-      'تسجيل الخروج',
-      'هل تريد تسجيل الخروج؟',
-      [
-        { text: 'إلغاء', style: 'cancel' },
-        {
-          text: 'خروج',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await logout();
-              router.replace('/(auth)/login');
-            } catch (error) {
-              console.error('Logout error:', error);
-              router.replace('/(auth)/login');
-            }
-          },
-        },
-      ]
-    );
+  const handleLogout = async () => {
+    // Direct logout without confirmation for better compatibility
+    try {
+      await logout();
+      router.replace('/(auth)/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      router.replace('/(auth)/login');
+    }
   };
 
   const openWhatsApp = () => {
