@@ -628,6 +628,46 @@ const styles = StyleSheet.create({
     fontSize: SIZES.fontMd,
     color: COLORS.textSecondary,
   },
+  // Login Settings Button
+  loginSettingsBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.primary + '15',
+    marginHorizontal: SIZES.md,
+    marginBottom: SIZES.md,
+    padding: SIZES.md,
+    borderRadius: SIZES.radiusMd,
+    borderWidth: 1,
+    borderColor: COLORS.primary + '30',
+  },
+  loginSettingsBtnContent: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loginSettingsIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: COLORS.primary + '20',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: SIZES.sm,
+  },
+  loginSettingsText: {
+    flex: 1,
+  },
+  loginSettingsTitle: {
+    fontSize: SIZES.fontMd,
+    fontWeight: 'bold',
+    color: COLORS.text,
+    textAlign: 'right',
+  },
+  loginSettingsDesc: {
+    fontSize: SIZES.fontSm,
+    color: COLORS.textSecondary,
+    textAlign: 'right',
+  },
   tabsContainer: {
     maxHeight: 50,
   },
