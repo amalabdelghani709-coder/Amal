@@ -30,11 +30,18 @@ export default function AdminMoreScreen() {
   const handleLogout = async () => {
     try {
       await logout();
-      // Use replace to navigate to login screen
-      router.replace('/(auth)/login');
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      } else {
+        router.replace('/(auth)/login');
+      }
     } catch (error) {
       console.error('Logout error:', error);
-      router.replace('/(auth)/login');
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      } else {
+        router.replace('/(auth)/login');
+      }
     }
   };
 
