@@ -594,7 +594,9 @@ export default function LoginSettingsScreen() {
                       settings.login_button_text_color === color && styles.colorSelected,
                     ]}
                     onPress={() => updateSettings({ login_button_text_color: color })}
-                  />
+                  >
+                    {color === 'transparent' && <Ionicons name="grid-outline" size={18} color="#999" />}
+                  </TouchableOpacity>
                 ))}
               </View>
             </View>
