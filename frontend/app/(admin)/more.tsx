@@ -28,9 +28,14 @@ export default function AdminMoreScreen() {
   const [isCreating, setIsCreating] = useState(false);
 
   const handleLogout = async () => {
-    await logout();
-    router.dismissAll();
-    router.replace('/(auth)/login');
+    try {
+      await logout();
+      // Use replace to navigate to login screen
+      router.replace('/(auth)/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      router.replace('/(auth)/login');
+    }
   };
 
   const openCreateModal = (role: 'driver' | 'collector') => {
