@@ -65,6 +65,11 @@ const defaultSettings: LoginSettings = {
   login_error_phone_invalid: 'رقم الهاتف غير صحيح',
   login_error_generic: 'فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى',
   primary_color: '#2E7D32',
+  // Logo settings
+  login_logo_image: '',
+  login_logo_mode: 'emoji',
+  login_logo_emoji: '🛒',
+  login_logo_size: 100,
 };
 
 export default function LoginScreen() {
