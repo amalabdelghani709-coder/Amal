@@ -108,6 +108,11 @@ export default function LoginScreen() {
           login_error_phone_invalid: data.login_error_phone_invalid || defaultSettings.login_error_phone_invalid,
           login_error_generic: data.login_error_generic || defaultSettings.login_error_generic,
           primary_color: data.primary_color || defaultSettings.primary_color,
+          // Logo settings
+          login_logo_image: data.login_logo_image || '',
+          login_logo_mode: data.login_logo_mode || defaultSettings.login_logo_mode,
+          login_logo_emoji: data.login_logo_emoji || defaultSettings.login_logo_emoji,
+          login_logo_size: data.login_logo_size ?? defaultSettings.login_logo_size,
         });
       }
     } catch (error) {
