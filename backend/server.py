@@ -175,6 +175,22 @@ class SettingsBase(BaseModel):
     home_icon: str = "home"
     profile_icon: str = "person"
     orders_icon: str = "receipt"
+    # Login Screen Settings
+    login_background_image: str = ""
+    login_background_mode: str = "cover"  # cover, contain, stretch
+    login_name_placeholder: str = "أدخل اسمك الكامل"
+    login_phone_placeholder: str = "أدخل رقم هاتفك"
+    login_button_text: str = "دخول"
+    login_fields_bg_color: str = "#FFFFFF"
+    login_fields_text_color: str = "#212121"
+    login_button_color: str = "#2E7D32"
+    login_button_text_color: str = "#FFFFFF"
+    login_fields_border_radius: int = 12  # 0=square, 12=rounded, 25=pill
+    login_button_border_radius: int = 12
+    login_error_name_required: str = "الرجاء إدخال اسمك (على الأقل حرفين)"
+    login_error_phone_required: str = "الرجاء إدخال رقم الهاتف"
+    login_error_phone_invalid: str = "رقم الهاتف غير صحيح"
+    login_error_generic: str = "فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى"
 
 class SettingsUpdate(BaseModel):
     admin_phone: Optional[str] = None
