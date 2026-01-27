@@ -191,6 +191,11 @@ class SettingsBase(BaseModel):
     login_error_phone_required: str = "الرجاء إدخال رقم الهاتف"
     login_error_phone_invalid: str = "رقم الهاتف غير صحيح"
     login_error_generic: str = "فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى"
+    # Logo Settings
+    login_logo_image: str = ""  # Custom logo image (base64 or URL)
+    login_logo_mode: str = "emoji"  # emoji, image
+    login_logo_emoji: str = "🛒"  # Default emoji if no image
+    login_logo_size: int = 100  # Logo size in pixels
 
 class SettingsUpdate(BaseModel):
     admin_phone: Optional[str] = None
