@@ -40,6 +40,11 @@ interface LoginSettings {
   login_error_phone_invalid: string;
   login_error_generic: string;
   primary_color: string;
+  // Logo settings
+  login_logo_image: string;
+  login_logo_mode: string;
+  login_logo_emoji: string;
+  login_logo_size: number;
 }
 
 const defaultSettings: LoginSettings = {
