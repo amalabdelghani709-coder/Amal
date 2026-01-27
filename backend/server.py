@@ -148,6 +148,33 @@ class SettingsBase(BaseModel):
     store_name: str = "دار البقال"
     store_description: str = ""
     banner_images: List[str] = []
+    # Interface Settings
+    primary_color: str = "#2E7D32"
+    secondary_color: str = "#FF9800"
+    accent_color: str = "#FFC107"
+    background_color: str = "#F5F5F5"
+    text_color: str = "#212121"
+    theme_mode: str = "light"  # light, dark
+    products_display: str = "grid"  # grid, list
+    products_columns: int = 2  # 1, 2, 3
+    # Sections visibility
+    show_new_products: bool = True
+    show_discounts: bool = True
+    show_categories: bool = True
+    show_banner: bool = True
+    # Custom texts
+    welcome_message: str = "مرحباً بك في دار البقال"
+    order_success_message: str = "تم استلام طلبك بنجاح! سنتواصل معك قريباً"
+    order_preparing_message: str = "طلبك قيد التحضير"
+    order_delivering_message: str = "طلبك في الطريق إليك"
+    order_delivered_message: str = "تم توصيل طلبك. شكراً لك!"
+    empty_cart_message: str = "سلتك فارغة"
+    # Icons customization
+    cart_icon: str = "cart"
+    search_icon: str = "search"
+    home_icon: str = "home"
+    profile_icon: str = "person"
+    orders_icon: str = "receipt"
 
 class SettingsUpdate(BaseModel):
     admin_phone: Optional[str] = None
@@ -158,6 +185,33 @@ class SettingsUpdate(BaseModel):
     store_name: Optional[str] = None
     store_description: Optional[str] = None
     banner_images: Optional[List[str]] = None
+    # Interface Settings
+    primary_color: Optional[str] = None
+    secondary_color: Optional[str] = None
+    accent_color: Optional[str] = None
+    background_color: Optional[str] = None
+    text_color: Optional[str] = None
+    theme_mode: Optional[str] = None
+    products_display: Optional[str] = None
+    products_columns: Optional[int] = None
+    # Sections visibility
+    show_new_products: Optional[bool] = None
+    show_discounts: Optional[bool] = None
+    show_categories: Optional[bool] = None
+    show_banner: Optional[bool] = None
+    # Custom texts
+    welcome_message: Optional[str] = None
+    order_success_message: Optional[str] = None
+    order_preparing_message: Optional[str] = None
+    order_delivering_message: Optional[str] = None
+    order_delivered_message: Optional[str] = None
+    empty_cart_message: Optional[str] = None
+    # Icons customization
+    cart_icon: Optional[str] = None
+    search_icon: Optional[str] = None
+    home_icon: Optional[str] = None
+    profile_icon: Optional[str] = None
+    orders_icon: Optional[str] = None
 
 class PointsTransaction(BaseModel):
     user_id: str
