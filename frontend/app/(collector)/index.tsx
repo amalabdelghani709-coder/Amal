@@ -145,21 +145,6 @@ export default function CollectorScreen() {
         <Ionicons name="chevron-back" size={24} color={COLORS.white} />
       </TouchableOpacity>
 
-      {/* زر تقرير الأرباح */}
-      <TouchableOpacity 
-        style={styles.profitButton}
-        onPress={() => router.push('/(collector)/profit-report')}
-      >
-        <View style={styles.allProductsContent}>
-          <Ionicons name="analytics" size={28} color={COLORS.white} />
-          <View style={styles.allProductsText}>
-            <Text style={styles.allProductsTitle}>تقرير الأرباح</Text>
-            <Text style={styles.allProductsSubtitle}>أسعار الشراء والبيع والربح</Text>
-          </View>
-        </View>
-        <Ionicons name="chevron-back" size={24} color={COLORS.white} />
-      </TouchableOpacity>
-
       <FlatList
         data={orders}
         renderItem={({ item }) => {
