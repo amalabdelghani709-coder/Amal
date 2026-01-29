@@ -80,6 +80,7 @@ class ProductUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     price: Optional[float] = None
+    cost_price: Optional[float] = None
     original_price: Optional[float] = None
     category: Optional[str] = None
     image: Optional[str] = None
