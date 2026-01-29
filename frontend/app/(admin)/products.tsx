@@ -25,6 +25,7 @@ interface Product {
   id: string;
   name: string;
   price: number;
+  cost_price: number;
   original_price?: number;
   category: string;
   image?: string;
