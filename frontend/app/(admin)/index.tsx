@@ -178,6 +178,12 @@ export default function AdminDashboard() {
               color={COLORS.primary}
             />
             <ActionButton
+              icon="grid-outline"
+              label="تصنيف المنتجات"
+              onPress={() => router.push('/(admin)/categories')}
+              color="#FF5722"
+            />
+            <ActionButton
               icon="cloud-upload-outline"
               label="استيراد Excel"
               onPress={() => router.push('/(admin)/import-products')}
@@ -194,12 +200,6 @@ export default function AdminDashboard() {
               label="تصدير Excel"
               onPress={() => router.push('/(admin)/export-products')}
               color={COLORS.success}
-            />
-            <ActionButton
-              icon="map-outline"
-              label="خريطة الزبناء"
-              onPress={() => router.push('/(admin)/customers')}
-              color={COLORS.secondary}
             />
             <ActionButton
               icon="settings-outline"
