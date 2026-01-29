@@ -86,6 +86,7 @@ export default function AdminProductsScreen() {
   const resetForm = () => {
     setName('');
     setPrice('');
+    setCostPrice('');
     setOriginalPrice('');
     setCategory('');
     setUnit('');
@@ -106,6 +107,7 @@ export default function AdminProductsScreen() {
     setEditingProduct(product);
     setName(product.name);
     setPrice(product.price.toString());
+    setCostPrice(product.cost_price?.toString() || '');
     setOriginalPrice(product.original_price?.toString() || '');
     setCategory(product.category);
     setUnit(product.unit || '');
