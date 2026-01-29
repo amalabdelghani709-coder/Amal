@@ -188,7 +188,7 @@ export default function AdminProductsScreen() {
   const handleDelete = (product: Product) => {
     Alert.alert(
       'حذف المنتج',
-      `هل تريد حذف "${product.name}"؟`,
+      `هل تريد حذف "${product.name}" نهائياً؟\n\nلا يمكن التراجع عن هذا الإجراء.`,
       [
         { text: 'إلغاء', style: 'cancel' },
         {
@@ -200,15 +200,40 @@ export default function AdminProductsScreen() {
                 method: 'DELETE',
               });
               if (response.ok) {
+                Alert.alert('تم', 'تم حذف المنتج بنجاح');
                 fetchProducts();
+              } else {
+                Alert.alert('خطأ', 'فشل حذف المنتج');
               }
             } catch (error) {
-              Alert.alert('خطأ', 'فشل حذف المنتج');
+              Alert.alert('خطأ', 'فشل الاتصال بالخادم');
             }
           },
         },
       ]
     );
+  };
+
+  const handleToggleVisibility = async (product: Product) => {
+    const newStatus = !product.is_active;
+    const action = newStatus ? 'إظهار' : 'إخفاء';
+    
+    try {
+      const response = await fetch(`${API_URL}/api/products/${product.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_active: newStatus }),
+      });
+      
+      if (response.ok) {
+        Alert.alert('تم', `تم ${action} المنتج "${product.name}"`);
+        fetchProducts();
+      } else {
+        Alert.alert('خطأ', `فشل ${action} المنتج`);
+      }
+    } catch (error) {
+      Alert.alert('خطأ', 'فشل الاتصال بالخادم');
+    }
   };
 
   const renderProduct = ({ item }: { item: Product }) => (
