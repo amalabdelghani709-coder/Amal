@@ -144,6 +144,7 @@ export default function AdminProductsScreen() {
       const productData = {
         name,
         price: parseFloat(price),
+        cost_price: costPrice ? parseFloat(costPrice) : 0,
         original_price: originalPrice ? parseFloat(originalPrice) : null,
         category,
         unit,
