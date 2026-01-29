@@ -276,16 +276,6 @@ const styles = StyleSheet.create({
     marginHorizontal: SIZES.md,
     borderRadius: SIZES.radiusLg,
     padding: SIZES.md,
-    marginBottom: SIZES.sm,
-  },
-  profitButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#9C27B0',
-    marginHorizontal: SIZES.md,
-    borderRadius: SIZES.radiusLg,
-    padding: SIZES.md,
     marginBottom: SIZES.md,
   },
   list: {
