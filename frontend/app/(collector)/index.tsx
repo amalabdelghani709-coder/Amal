@@ -268,6 +268,16 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     textAlign: 'right',
   },
+  editOrdersButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: COLORS.primary,
+    marginHorizontal: SIZES.md,
+    borderRadius: SIZES.radiusLg,
+    padding: SIZES.md,
+    marginBottom: SIZES.md,
+  },
   list: {
     padding: SIZES.md,
   },
