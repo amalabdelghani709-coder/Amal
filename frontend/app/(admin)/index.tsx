@@ -184,6 +184,12 @@ export default function AdminDashboard() {
               color="#9C27B0"
             />
             <ActionButton
+              icon="download-outline"
+              label="تصدير Excel"
+              onPress={() => router.push('/(admin)/export-products')}
+              color={COLORS.success}
+            />
+            <ActionButton
               icon="map-outline"
               label="خريطة الزبناء"
               onPress={() => router.push('/(admin)/customers')}
