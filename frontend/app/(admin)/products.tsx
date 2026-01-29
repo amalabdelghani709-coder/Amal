@@ -550,6 +550,19 @@ const styles = StyleSheet.create({
     fontSize: 8,
     fontWeight: 'bold',
   },
+  hiddenBadge: {
+    position: 'absolute',
+    bottom: 2,
+    left: 2,
+    backgroundColor: COLORS.textSecondary,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  productContent: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   productInfo: {
     flex: 1,
     marginHorizontal: SIZES.sm,
@@ -579,6 +592,22 @@ const styles = StyleSheet.create({
   productStock: {
     fontSize: SIZES.fontSm,
     color: COLORS.textSecondary,
+  },
+  actionButtons: {
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    paddingRight: SIZES.xs,
+  },
+  actionButton: {
+    padding: SIZES.xs,
+    borderRadius: SIZES.radiusSm,
+    marginVertical: 2,
+  },
+  visibilityButton: {
+    backgroundColor: COLORS.background,
+  },
+  deleteButtonStyle: {
+    backgroundColor: COLORS.error + '15',
   },
   deleteButton: {
     justifyContent: 'center',
