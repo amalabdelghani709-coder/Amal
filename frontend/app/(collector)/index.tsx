@@ -224,6 +224,35 @@ const styles = StyleSheet.create({
     fontSize: SIZES.fontMd,
     color: COLORS.textSecondary,
   },
+  allProductsButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: COLORS.secondary,
+    marginHorizontal: SIZES.md,
+    borderRadius: SIZES.radiusLg,
+    padding: SIZES.md,
+    marginBottom: SIZES.md,
+  },
+  allProductsContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  allProductsText: {
+    marginRight: SIZES.sm,
+  },
+  allProductsTitle: {
+    fontSize: SIZES.fontMd,
+    fontWeight: 'bold',
+    color: COLORS.white,
+    textAlign: 'right',
+  },
+  allProductsSubtitle: {
+    fontSize: SIZES.fontSm,
+    color: COLORS.white,
+    opacity: 0.8,
+    textAlign: 'right',
+  },
   list: {
     padding: SIZES.md,
   },
