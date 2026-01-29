@@ -516,6 +516,111 @@ async def get_top_selling(limit: int = Query(20)):
     
     return enriched
 
+@api_router.get("/products/profit-report")
+async def get_profit_report(date: str = Query(None)):
+    """Get daily profit report - compares cost price with sell price"""
+    # Parse date or use today
+    if date:
+        try:
+            report_date = datetime.strptime(date, "%Y-%m-%d")
+        except:
+            report_date = datetime.utcnow()
+    else:
+        report_date = datetime.utcnow()
+    
+    # Get start and end of day
+    start_of_day = report_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    end_of_day = start_of_day + timedelta(days=1)
+    
+    # Get all delivered orders for the day
+    orders = await db.orders.find({
+        "created_at": {"$gte": start_of_day, "$lt": end_of_day},
+        "status": {"$in": ["delivered", "ready", "delivering"]}
+    }).to_list(1000)
+    
+    # Get all products with their cost prices
+    all_products = await db.products.find({}).to_list(1000)
+    products_map = {str(p["_id"]): p for p in all_products}
+    
+    # Calculate profit for each product
+    product_profits = {}
+    total_revenue = 0
+    total_cost = 0
+    total_profit = 0
+    
+    for order in orders:
+        for item in order.get("items", []):
+            product_id = item.get("product_id")
+            quantity = item.get("quantity", 0)
+            sell_price = item.get("price", 0)
+            
+            product = products_map.get(product_id, {})
+            cost_price = product.get("cost_price", 0)
+            
+            item_revenue = sell_price * quantity
+            item_cost = cost_price * quantity
+            item_profit = item_revenue - item_cost
+            
+            total_revenue += item_revenue
+            total_cost += item_cost
+            total_profit += item_profit
+            
+            if product_id not in product_profits:
+                product_profits[product_id] = {
+                    "product_id": product_id,
+                    "product_name": item.get("product_name", ""),
+                    "cost_price": cost_price,
+                    "sell_price": sell_price,
+                    "quantity_sold": 0,
+                    "revenue": 0,
+                    "cost": 0,
+                    "profit": 0
+                }
+            
+            product_profits[product_id]["quantity_sold"] += quantity
+            product_profits[product_id]["revenue"] += item_revenue
+            product_profits[product_id]["cost"] += item_cost
+            product_profits[product_id]["profit"] += item_profit
+    
+    # Sort by profit
+    products_list = sorted(product_profits.values(), key=lambda x: x["profit"], reverse=True)
+    
+    return {
+        "date": start_of_day.strftime("%Y-%m-%d"),
+        "orders_count": len(orders),
+        "total_revenue": total_revenue,
+        "total_cost": total_cost,
+        "total_profit": total_profit,
+        "profit_margin": (total_profit / total_revenue * 100) if total_revenue > 0 else 0,
+        "products": products_list
+    }
+
+@api_router.get("/products/all-with-cost")
+async def get_all_products_with_cost():
+    """Get all products with cost and profit info"""
+    products = await db.products.find({}).sort("name", 1).to_list(1000)
+    
+    result = []
+    for product in products:
+        sell_price = product.get("price", 0)
+        cost_price = product.get("cost_price", 0)
+        profit = sell_price - cost_price
+        profit_margin = (profit / sell_price * 100) if sell_price > 0 else 0
+        
+        result.append({
+            "id": str(product["_id"]),
+            "name": product.get("name", ""),
+            "category": product.get("category", ""),
+            "cost_price": cost_price,
+            "sell_price": sell_price,
+            "profit": profit,
+            "profit_margin": round(profit_margin, 1),
+            "stock": product.get("stock", 0),
+            "is_active": product.get("is_active", True)
+        })
+    
+    return result
+
 @api_router.get("/products/{product_id}")
 async def get_product(product_id: str):
     """Get single product"""
