@@ -131,38 +131,56 @@ export default function ExportProductsScreen() {
       // تحويل إلى base64
       const wbout = XLSX.write(workbook, { type: 'base64', bookType: 'xlsx' });
 
-      // اسم الملف مع التاريخ
+      // اسم الملف مع التاريخ (بالإنجليزية لتجنب مشاكل الترميز)
       const date = new Date().toISOString().split('T')[0];
-      const fileName = `منتجات_دار_البقال_${date}.xlsx`;
+      const fileName = `DarElBakkal_Products_${date}.xlsx`;
 
       if (Platform.OS === 'web') {
         // للويب - تحميل مباشر
-        const blob = new Blob(
-          [Uint8Array.from(atob(wbout), c => c.charCodeAt(0))],
-          { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
-        );
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        link.click();
-        URL.revokeObjectURL(url);
-        Alert.alert('تم', 'تم تحميل ملف Excel بنجاح');
+        try {
+          const binaryString = atob(wbout);
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+          const blob = new Blob([bytes], { 
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+          });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          Alert.alert('تم ✅', 'تم تحميل ملف Excel بنجاح');
+        } catch (webError) {
+          console.error('Web export error:', webError);
+          Alert.alert('خطأ', 'فشل تحميل الملف على المتصفح');
+        }
       } else {
         // للموبايل - حفظ ومشاركة
-        const filePath = `${FileSystem.documentDirectory}${fileName}`;
-        await FileSystem.writeAsStringAsync(filePath, wbout, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
-
-        // مشاركة الملف
-        if (await Sharing.isAvailableAsync()) {
-          await Sharing.shareAsync(filePath, {
-            mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            dialogTitle: 'تصدير المنتجات',
+        try {
+          const filePath = `${FileSystem.cacheDirectory}${fileName}`;
+          await FileSystem.writeAsStringAsync(filePath, wbout, {
+            encoding: FileSystem.EncodingType.Base64,
           });
-        } else {
-          Alert.alert('تم', `تم حفظ الملف في: ${filePath}`);
+
+          // مشاركة الملف
+          const isAvailable = await Sharing.isAvailableAsync();
+          if (isAvailable) {
+            await Sharing.shareAsync(filePath, {
+              mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+              dialogTitle: 'تصدير المنتجات',
+              UTI: 'com.microsoft.excel.xlsx',
+            });
+          } else {
+            Alert.alert('تم ✅', 'تم حفظ الملف بنجاح');
+          }
+        } catch (mobileError) {
+          console.error('Mobile export error:', mobileError);
+          Alert.alert('خطأ', 'فشل حفظ الملف على الهاتف');
         }
       }
     } catch (error) {
