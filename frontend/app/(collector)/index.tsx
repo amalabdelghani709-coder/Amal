@@ -130,6 +130,21 @@ export default function CollectorScreen() {
         <Ionicons name="chevron-back" size={24} color={COLORS.white} />
       </TouchableOpacity>
 
+      {/* زر تعديل الطلبيات */}
+      <TouchableOpacity 
+        style={styles.editOrdersButton}
+        onPress={() => router.push('/(collector)/edit-orders')}
+      >
+        <View style={styles.allProductsContent}>
+          <Ionicons name="create" size={28} color={COLORS.white} />
+          <View style={styles.allProductsText}>
+            <Text style={styles.allProductsTitle}>تعديل الطلبيات</Text>
+            <Text style={styles.allProductsSubtitle}>تعديل كميات المنتجات</Text>
+          </View>
+        </View>
+        <Ionicons name="chevron-back" size={24} color={COLORS.white} />
+      </TouchableOpacity>
+
       <FlatList
         data={orders}
         renderItem={({ item }) => {
