@@ -115,6 +115,21 @@ export default function CollectorScreen() {
         <Text style={styles.statsLabel}>طلبية تحتاج للتجميع</Text>
       </View>
 
+      {/* زر عرض القائمة المجمعة */}
+      <TouchableOpacity 
+        style={styles.allProductsButton}
+        onPress={() => router.push('/(collector)/all-products')}
+      >
+        <View style={styles.allProductsContent}>
+          <Ionicons name="list" size={28} color={COLORS.white} />
+          <View style={styles.allProductsText}>
+            <Text style={styles.allProductsTitle}>قائمة التجميع الكاملة</Text>
+            <Text style={styles.allProductsSubtitle}>عرض جميع المنتجات مجمعة</Text>
+          </View>
+        </View>
+        <Ionicons name="chevron-back" size={24} color={COLORS.white} />
+      </TouchableOpacity>
+
       <FlatList
         data={orders}
         renderItem={({ item }) => {
