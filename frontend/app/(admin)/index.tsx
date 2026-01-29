@@ -178,6 +178,12 @@ export default function AdminDashboard() {
               color={COLORS.primary}
             />
             <ActionButton
+              icon="analytics-outline"
+              label="تقرير الأرباح"
+              onPress={() => router.push('/(admin)/profit-report')}
+              color="#9C27B0"
+            />
+            <ActionButton
               icon="map-outline"
               label="خريطة الزبناء"
               onPress={() => router.push('/(admin)/customers')}
