@@ -186,32 +186,56 @@ export default function AdminProductsScreen() {
   };
 
   const handleDelete = (product: Product) => {
-    Alert.alert(
-      'حذف المنتج',
-      `هل تريد حذف "${product.name}" نهائياً؟\n\nلا يمكن التراجع عن هذا الإجراء.`,
-      [
-        { text: 'إلغاء', style: 'cancel' },
-        {
-          text: 'حذف',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const response = await fetch(`${API_URL}/api/products/${product.id}`, {
-                method: 'DELETE',
-              });
-              if (response.ok) {
-                Alert.alert('تم', 'تم حذف المنتج بنجاح');
-                fetchProducts();
-              } else {
-                Alert.alert('خطأ', 'فشل حذف المنتج');
-              }
-            } catch (error) {
-              Alert.alert('خطأ', 'فشل الاتصال بالخادم');
-            }
+    if (Platform.OS === 'web') {
+      // للويب - استخدام confirm
+      const confirmed = window.confirm(`هل تريد حذف "${product.name}" نهائياً؟\n\nلا يمكن التراجع عن هذا الإجراء.`);
+      if (confirmed) {
+        deleteProduct(product);
+      }
+    } else {
+      // للموبايل - استخدام Alert
+      Alert.alert(
+        'حذف المنتج',
+        `هل تريد حذف "${product.name}" نهائياً؟\n\nلا يمكن التراجع عن هذا الإجراء.`,
+        [
+          { text: 'إلغاء', style: 'cancel' },
+          {
+            text: 'حذف',
+            style: 'destructive',
+            onPress: () => deleteProduct(product),
           },
-        },
-      ]
-    );
+        ]
+      );
+    }
+  };
+
+  const deleteProduct = async (product: Product) => {
+    try {
+      const response = await fetch(`${API_URL}/api/products/${product.id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        if (Platform.OS === 'web') {
+          window.alert('تم حذف المنتج بنجاح');
+        } else {
+          Alert.alert('تم', 'تم حذف المنتج بنجاح');
+        }
+        fetchProducts();
+      } else {
+        if (Platform.OS === 'web') {
+          window.alert('فشل حذف المنتج');
+        } else {
+          Alert.alert('خطأ', 'فشل حذف المنتج');
+        }
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      if (Platform.OS === 'web') {
+        window.alert('فشل الاتصال بالخادم');
+      } else {
+        Alert.alert('خطأ', 'فشل الاتصال بالخادم');
+      }
+    }
   };
 
   const handleToggleVisibility = async (product: Product) => {
