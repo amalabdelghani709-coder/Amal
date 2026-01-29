@@ -178,6 +178,12 @@ export default function AdminDashboard() {
               color={COLORS.primary}
             />
             <ActionButton
+              icon="cloud-upload-outline"
+              label="استيراد Excel"
+              onPress={() => router.push('/(admin)/import-products')}
+              color={COLORS.info}
+            />
+            <ActionButton
               icon="analytics-outline"
               label="تقرير الأرباح"
               onPress={() => router.push('/(admin)/profit-report')}
@@ -193,13 +199,7 @@ export default function AdminDashboard() {
               icon="map-outline"
               label="خريطة الزبناء"
               onPress={() => router.push('/(admin)/customers')}
-              color={COLORS.info}
-            />
-            <ActionButton
-              icon="pricetags-outline"
-              label="التخفيضات"
-              onPress={() => router.push('/(admin)/products')}
-              color={COLORS.error}
+              color={COLORS.secondary}
             />
             <ActionButton
               icon="settings-outline"
