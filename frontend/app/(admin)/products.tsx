@@ -237,44 +237,66 @@ export default function AdminProductsScreen() {
   };
 
   const renderProduct = ({ item }: { item: Product }) => (
-    <TouchableOpacity
-      style={[styles.productCard, !item.is_active && styles.inactiveCard]}
-      onPress={() => openEditModal(item)}
-    >
-      <View style={styles.productImageContainer}>
-        {item.image ? (
-          <Image
-            source={{ uri: item.image.startsWith('data:') ? item.image : `data:image/jpeg;base64,${item.image}` }}
-            style={styles.productImage}
-          />
-        ) : (
-          <View style={styles.productImagePlaceholder}>
-            <Ionicons name="cube-outline" size={24} color={COLORS.textLight} />
-          </View>
-        )}
-        {item.is_new && (
-          <View style={styles.newBadge}>
-            <Text style={styles.badgeText}>جديد</Text>
-          </View>
-        )}
-        {item.is_discount && (
-          <View style={styles.discountBadge}>
-            <Text style={styles.badgeText}>تخفيض</Text>
-          </View>
-        )}
-      </View>
-      <View style={styles.productInfo}>
-        <Text style={styles.productName} numberOfLines={1}>{item.name}</Text>
-        <Text style={styles.productCategory}>{item.category}</Text>
-        <View style={styles.productPriceRow}>
-          <Text style={styles.productPrice}>{item.price.toFixed(2)} درهم</Text>
-          <Text style={styles.productStock}>المخزون: {item.stock}</Text>
+    <View style={[styles.productCard, !item.is_active && styles.inactiveCard]}>
+      <TouchableOpacity 
+        style={styles.productContent}
+        onPress={() => openEditModal(item)}
+      >
+        <View style={styles.productImageContainer}>
+          {item.image ? (
+            <Image
+              source={{ uri: item.image.startsWith('data:') ? item.image : `data:image/jpeg;base64,${item.image}` }}
+              style={styles.productImage}
+            />
+          ) : (
+            <View style={styles.productImagePlaceholder}>
+              <Ionicons name="cube-outline" size={24} color={COLORS.textLight} />
+            </View>
+          )}
+          {item.is_new && (
+            <View style={styles.newBadge}>
+              <Text style={styles.badgeText}>جديد</Text>
+            </View>
+          )}
+          {item.is_discount && (
+            <View style={styles.discountBadge}>
+              <Text style={styles.badgeText}>تخفيض</Text>
+            </View>
+          )}
+          {!item.is_active && (
+            <View style={styles.hiddenBadge}>
+              <Text style={styles.badgeText}>مخفي</Text>
+            </View>
+          )}
         </View>
-      </View>
-      <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item)}>
-        <Ionicons name="trash-outline" size={20} color={COLORS.error} />
+        <View style={styles.productInfo}>
+          <Text style={styles.productName} numberOfLines={1}>{item.name}</Text>
+          <Text style={styles.productCategory}>{item.category}</Text>
+          <View style={styles.productPriceRow}>
+            <Text style={styles.productPrice}>{item.price.toFixed(2)} درهم</Text>
+            <Text style={styles.productStock}>المخزون: {item.stock}</Text>
+          </View>
+        </View>
       </TouchableOpacity>
-    </TouchableOpacity>
+      <View style={styles.actionButtons}>
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.visibilityButton]} 
+          onPress={() => handleToggleVisibility(item)}
+        >
+          <Ionicons 
+            name={item.is_active ? "eye-off-outline" : "eye-outline"} 
+            size={20} 
+            color={item.is_active ? COLORS.secondary : COLORS.success} 
+          />
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.deleteButtonStyle]} 
+          onPress={() => handleDelete(item)}
+        >
+          <Ionicons name="trash-outline" size={20} color={COLORS.error} />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 
   if (isLoading) {
