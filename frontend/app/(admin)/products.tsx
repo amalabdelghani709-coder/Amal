@@ -319,7 +319,7 @@ export default function AdminProductsScreen() {
             <View style={styles.row}>
               <View style={styles.halfInput}>
                 <Input
-                  label="السعر *"
+                  label="سعر البيع *"
                   value={price}
                   onChangeText={setPrice}
                   placeholder="0.00"
@@ -328,14 +328,22 @@ export default function AdminProductsScreen() {
               </View>
               <View style={styles.halfInput}>
                 <Input
-                  label="السعر الأصلي"
-                  value={originalPrice}
-                  onChangeText={setOriginalPrice}
+                  label="سعر الشراء"
+                  value={costPrice}
+                  onChangeText={setCostPrice}
                   placeholder="0.00"
                   keyboardType="numeric"
                 />
               </View>
             </View>
+
+            <Input
+              label="السعر الأصلي (قبل الخصم)"
+              value={originalPrice}
+              onChangeText={setOriginalPrice}
+              placeholder="0.00"
+              keyboardType="numeric"
+            />
 
             <Input
               label="الفئة *"
