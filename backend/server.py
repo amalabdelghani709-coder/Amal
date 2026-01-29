@@ -62,6 +62,7 @@ class ProductBase(BaseModel):
     name: str
     description: str = ""
     price: float
+    cost_price: float = 0  # سعر الشراء
     original_price: Optional[float] = None
     category: str
     image: str = ""  # Base64 image
