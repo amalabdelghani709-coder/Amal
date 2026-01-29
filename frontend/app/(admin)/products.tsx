@@ -49,6 +49,7 @@ export default function AdminProductsScreen() {
   // Form state
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
+  const [costPrice, setCostPrice] = useState('');
   const [originalPrice, setOriginalPrice] = useState('');
   const [category, setCategory] = useState('');
   const [unit, setUnit] = useState('');
