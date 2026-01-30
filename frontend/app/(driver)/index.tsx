@@ -170,6 +170,17 @@ export default function DriverOrdersScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* Quick Actions */}
+      <View style={styles.quickActions}>
+        <TouchableOpacity 
+          style={styles.summaryButton}
+          onPress={() => router.push('/(driver)/summary')}
+        >
+          <Ionicons name="stats-chart" size={20} color={COLORS.white} />
+          <Text style={styles.summaryButtonText}>تقرير التوصيلات</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* Stats */}
       <View style={styles.statsRow}>
         <View style={[styles.statCard, { backgroundColor: COLORS.success + '20' }]}>
