@@ -11,7 +11,7 @@ from datetime import datetime
 from typing import Dict, Any, Optional
 
 # Backend URL from frontend .env
-BACKEND_URL = "https://smartbakkal.preview.emergentagent.com/api"
+BACKEND_URL = "https://wholesale-bakkal.preview.emergentagent.com/api"
 
 # Test credentials
 TEST_CREDENTIALS = {
