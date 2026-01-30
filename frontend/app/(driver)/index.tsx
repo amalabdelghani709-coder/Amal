@@ -345,6 +345,25 @@ const styles = StyleSheet.create({
   logoutButton: {
     padding: SIZES.sm,
   },
+  quickActions: {
+    paddingHorizontal: SIZES.md,
+    marginBottom: SIZES.sm,
+  },
+  summaryButton: {
+    backgroundColor: COLORS.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: SIZES.md,
+    borderRadius: SIZES.radiusMd,
+    gap: SIZES.sm,
+    ...SHADOWS.medium,
+  },
+  summaryButtonText: {
+    color: COLORS.white,
+    fontSize: SIZES.fontMd,
+    fontWeight: '600',
+  },
   statsRow: {
     flexDirection: 'row',
     paddingHorizontal: SIZES.md,
